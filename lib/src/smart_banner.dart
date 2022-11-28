@@ -3,7 +3,7 @@ import 'package:url_launcher/url_launcher.dart';
 
 import 'banner_properties.dart';
 import 'banner_style.dart';
-import 'theme.dart';
+import 'theme/theme.dart';
 
 const kBannerHeight = 80.0;
 

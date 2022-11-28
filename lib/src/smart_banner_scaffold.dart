@@ -5,7 +5,8 @@ import 'banner_position.dart';
 import 'banner_properties.dart';
 import 'banner_style.dart';
 import 'smart_banner.dart';
-import 'theme.dart';
+import 'theme/theme.dart';
+import 'theme/theme_data.dart';
 
 class SmartBannerScaffold extends StatelessWidget {
   const SmartBannerScaffold({

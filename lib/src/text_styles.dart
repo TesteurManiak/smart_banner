@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
-class SmartBannerTextStyles {
-  const SmartBannerTextStyles._();
+class BannerTextStyles {
+  const BannerTextStyles._();
 
   static const buttonIOS = TextStyle(
     fontSize: 15.0,

@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
-class SmartBannerColorPalette {
-  const SmartBannerColorPalette._();
+class BannerColorPalette {
+  const BannerColorPalette._();
 
   static const backgroundIOS = Color(0xFFf2f2f2);
   static const backgroundAndroidDark = Color(0xFF3d3d3d);

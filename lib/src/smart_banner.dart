@@ -5,7 +5,7 @@ import 'banner_properties.dart';
 import 'banner_style.dart';
 import 'theme.dart';
 
-const _bannerHeight = 80.0;
+const kBannerHeight = 80.0;
 
 class SmartBanner extends StatefulWidget implements PreferredSizeWidget {
   const SmartBanner({
@@ -23,7 +23,7 @@ class SmartBanner extends StatefulWidget implements PreferredSizeWidget {
   State<SmartBanner> createState() => _SmartBannerState();
 
   @override
-  Size get preferredSize => const Size.fromHeight(_bannerHeight);
+  Size get preferredSize => const Size.fromHeight(kBannerHeight);
 }
 
 class _SmartBannerState extends State<SmartBanner> {

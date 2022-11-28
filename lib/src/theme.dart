@@ -6,21 +6,21 @@ import 'text_styles.dart';
 
 class SmartBannerThemeData {
   const SmartBannerThemeData.ios()
-      : backgroundColor = SmartBannerColorPalette.backgroundIOS,
-        shadowColor = SmartBannerColorPalette.shadowIOS,
-        _buttonColor = SmartBannerColorPalette.buttonIOS,
-        _titleColor = SmartBannerColorPalette.titleIOS,
-        _buttonTextStyle = SmartBannerTextStyles.buttonIOS,
-        _titleTextStyle = SmartBannerTextStyles.titleIOS;
+      : backgroundColor = BannerColorPalette.backgroundIOS,
+        shadowColor = BannerColorPalette.shadowIOS,
+        _buttonColor = BannerColorPalette.buttonIOS,
+        _titleColor = BannerColorPalette.titleIOS,
+        _buttonTextStyle = BannerTextStyles.buttonIOS,
+        _titleTextStyle = BannerTextStyles.titleIOS;
 
   // TODO: create real android theme
   const SmartBannerThemeData.androidDark()
-      : backgroundColor = SmartBannerColorPalette.backgroundAndroidDark,
+      : backgroundColor = BannerColorPalette.backgroundAndroidDark,
         shadowColor = Colors.black,
-        _buttonColor = SmartBannerColorPalette.buttonIOS,
-        _titleColor = SmartBannerColorPalette.titleIOS,
-        _buttonTextStyle = SmartBannerTextStyles.buttonIOS,
-        _titleTextStyle = SmartBannerTextStyles.titleIOS;
+        _buttonColor = BannerColorPalette.buttonIOS,
+        _titleColor = BannerColorPalette.titleIOS,
+        _buttonTextStyle = BannerTextStyles.buttonIOS,
+        _titleTextStyle = BannerTextStyles.titleIOS;
 
   factory SmartBannerThemeData.adaptive() {
     if (defaultTargetPlatform == TargetPlatform.iOS) {

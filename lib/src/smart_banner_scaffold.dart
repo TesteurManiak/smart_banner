@@ -38,28 +38,26 @@ class SmartBannerScaffold extends StatelessWidget {
         break;
     }
 
-    final banner = SmartBanner(
-      properties: BannerProperties.withUrl(
-        title: 'MyPage',
-        buttonLabel: 'VIEW',
-        storeText: const StoreText(
-          onIOS: 'On the App Store',
-          onAndroid: 'In Google Play',
-        ),
-        priceText: const PriceText.fromPrice('Free'),
-        url: SmartBannerUri(
-          onAndroid: Uri(),
-          onIOS: Uri(),
-        ),
-        icon: const _AppImagePlaceholder(),
-      ),
-      style: style,
-    );
-
     final size = MediaQuery.of(context).size;
-    final height = size.height - banner.preferredSize.height;
+    final height = size.height - kBannerHeight;
     final children = <Widget>[
-      banner,
+      SmartBanner(
+        properties: BannerProperties.withUrl(
+          title: 'MyPage',
+          buttonLabel: 'VIEW',
+          storeText: const StoreText(
+            onIOS: 'On the App Store',
+            onAndroid: 'In Google Play',
+          ),
+          priceText: const PriceText.fromPrice('Free'),
+          url: SmartBannerUri(
+            onAndroid: Uri(),
+            onIOS: Uri(),
+          ),
+          icon: const _AppImagePlaceholder(),
+        ),
+        style: style,
+      ),
       ConstrainedBox(
         constraints: BoxConstraints(maxHeight: height),
         child: child,

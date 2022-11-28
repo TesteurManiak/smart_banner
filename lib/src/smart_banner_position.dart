@@ -1,0 +1,4 @@
+enum SmartBannerPosition {
+  top,
+  bottom,
+}

@@ -1,13 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:url_launcher/url_launcher.dart';
 
-import 'banner_properties.dart';
-import 'banner_style.dart';
+import '../smart_banner.dart';
 import 'theme/theme.dart';
 
 const kBannerHeight = 80.0;
 
-class SmartBanner extends StatefulWidget implements PreferredSizeWidget {
+class SmartBanner extends StatelessWidget {
   const SmartBanner({
     super.key,
     required this.properties,
@@ -20,53 +19,38 @@ class SmartBanner extends StatefulWidget implements PreferredSizeWidget {
   final BannerStyle style;
 
   @override
-  State<SmartBanner> createState() => _SmartBannerState();
-
-  @override
-  Size get preferredSize => const Size.fromHeight(kBannerHeight);
-}
-
-class _SmartBannerState extends State<SmartBanner> {
-  @override
   Widget build(BuildContext context) {
     final theme = SmartBannerTheme.of(context);
-    final effectiveLang = widget.properties.appStoreLanguage ??
+    final effectiveLang = properties.appStoreLanguage ??
         Localizations.localeOf(context).languageCode;
 
     return Material(
+      color: theme.backgroundColor,
+      shadowColor: theme.shadowColor,
+      elevation: 1,
       child: Container(
         padding: const EdgeInsets.symmetric(horizontal: 10.0),
-        height: widget.preferredSize.height,
+        height: kBannerHeight,
         width: double.maxFinite,
-        decoration: BoxDecoration(
-          color: theme.backgroundColor,
-          boxShadow: [
-            BoxShadow(
-              color: theme.shadowColor,
-              blurRadius: 2.0,
-              offset: const Offset(0, 1),
-            ),
-          ],
-        ),
         child: Row(
           children: [
-            _CloseButton(onClose: widget.properties.onClose),
+            _CloseButton(onClose: properties.onClose),
             const SizedBox(width: 5),
-            widget.properties.icon,
+            properties.icon,
             const SizedBox(width: 12),
             Expanded(
               child: _TitleAuthorAndStore(
-                title: widget.properties.title,
-                store: widget.properties.storeText,
-                price: widget.properties.priceText,
-                author: widget.properties.author,
+                title: properties.title,
+                store: properties.storeText,
+                price: properties.priceText,
+                author: properties.author,
               ),
             ),
             _ViewButton(
               effectiveLang: effectiveLang,
-              label: widget.properties.buttonLabel,
-              url: widget.properties.url,
-              appId: widget.properties.id,
+              label: properties.buttonLabel,
+              url: properties.url,
+              appId: properties.id,
             ),
           ],
         ),
@@ -86,7 +70,7 @@ class _CloseButton extends StatelessWidget {
   Widget build(BuildContext context) {
     return IconButton(
       onPressed: () {
-        // TODO: close banner
+        SmartBannerScaffold.hideBanner(context);
         onClose?.call();
       },
       iconSize: 18,

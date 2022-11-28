@@ -7,73 +7,155 @@ import 'banner_style.dart';
 import 'smart_banner.dart';
 import 'theme/theme.dart';
 import 'theme/theme_data.dart';
+import 'utils/target_platform_extension.dart';
 
-class SmartBannerScaffold extends StatelessWidget {
+const _kAnimationDuration = Duration(milliseconds: 500);
+
+class SmartBannerScaffold extends StatefulWidget {
   const SmartBannerScaffold({
     super.key,
     required this.child,
     this.position = BannerPosition.top,
     this.style = BannerStyle.adaptive,
+    this.animationDuration = _kAnimationDuration,
+    this.animationCurve = Curves.easeInOut,
   });
 
   final Widget child;
   final BannerPosition position;
   final BannerStyle style;
+  final Duration animationDuration;
+  final Curve animationCurve;
+
+  @override
+  State<SmartBannerScaffold> createState() => SmartBannerScaffoldState();
+
+  static SmartBannerScaffoldState of(BuildContext context) {
+    final inheritedWidget =
+        context.dependOnInheritedWidgetOfExactType<_SmartBannerScope>();
+    return inheritedWidget!.state;
+  }
+
+  static SmartBannerScaffoldState? maybeOf(BuildContext context) {
+    final inheritedWidget =
+        context.dependOnInheritedWidgetOfExactType<_SmartBannerScope>();
+    return inheritedWidget?.state;
+  }
+
+  static void hideBanner(BuildContext context) {
+    maybeOf(context)?.hideBanner();
+  }
+
+  static void showBanner(BuildContext context) {
+    maybeOf(context)?.showBanner();
+  }
+}
+
+class SmartBannerScaffoldState extends State<SmartBannerScaffold>
+    with TickerProviderStateMixin {
+  late final _animationController = AnimationController(
+    vsync: this,
+    duration: widget.animationDuration,
+  );
+  late final _offsetAnimation = Tween<Offset>(
+    begin: Offset.zero,
+    end: widget.position == BannerPosition.top
+        ? const Offset(0, -1)
+        : const Offset(0, 1),
+  ).animate(
+    CurvedAnimation(
+      parent: _animationController,
+      curve: widget.animationCurve,
+    ),
+  );
+
+  bool get _shouldDisplayBanner {
+    if (kDebugMode) return true; // TODO: remove this
+    return kIsWeb && defaultTargetPlatform.isSupported;
+  }
+
+  @override
+  void dispose() {
+    _animationController.dispose();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
-    // If not on a web app, just return the child
-    if (!kIsWeb) return child;
+    if (!_shouldDisplayBanner) return widget.child;
 
-    final SmartBannerThemeData effectiveTheme;
-    switch (style) {
-      case BannerStyle.adaptive:
-        effectiveTheme = SmartBannerThemeData.adaptive();
-        break;
-      case BannerStyle.android:
-        // TODO: check brightness to return dark or light theme
-        effectiveTheme = const SmartBannerThemeData.androidDark();
-        break;
-      case BannerStyle.ios:
-        effectiveTheme = const SmartBannerThemeData.ios();
-        break;
-    }
-
-    final size = MediaQuery.of(context).size;
-    final height = size.height - kBannerHeight;
+    final effectiveTheme = _getEffectiveTheme();
     final children = <Widget>[
-      SmartBanner(
-        properties: BannerProperties.withUrl(
-          title: 'MyPage',
-          buttonLabel: 'VIEW',
-          storeText: const StoreText(
-            onIOS: 'On the App Store',
-            onAndroid: 'In Google Play',
+      SlideTransition(
+        position: _offsetAnimation,
+        child: SmartBanner(
+          properties: BannerProperties.withUrl(
+            title: 'MyPage',
+            buttonLabel: 'VIEW',
+            storeText: const StoreText(
+              onIOS: 'On the App Store',
+              onAndroid: 'In Google Play',
+            ),
+            priceText: const PriceText.fromPrice('Free'),
+            url: SmartBannerUri(
+              onAndroid: Uri(),
+              onIOS: Uri(),
+            ),
+            icon: const _AppImagePlaceholder(),
           ),
-          priceText: const PriceText.fromPrice('Free'),
-          url: SmartBannerUri(
-            onAndroid: Uri(),
-            onIOS: Uri(),
-          ),
-          icon: const _AppImagePlaceholder(),
+          style: widget.style,
         ),
-        style: style,
       ),
-      ConstrainedBox(
-        constraints: BoxConstraints(maxHeight: height),
-        child: child,
+      Expanded(
+        child: widget.child,
       ),
     ];
 
-    return SmartBannerTheme(
-      data: effectiveTheme,
-      child: Column(
-        mainAxisSize: MainAxisSize.min,
-        children: position == BannerPosition.top
-            ? children
-            : children.reversed.toList(),
+    return _SmartBannerScope(
+      state: this,
+      child: SmartBannerTheme(
+        data: effectiveTheme,
+        child: Column(
+          children: widget.position == BannerPosition.top
+              ? children
+              : children.reversed.toList(),
+        ),
       ),
     );
+  }
+
+  SmartBannerThemeData _getEffectiveTheme() {
+    switch (widget.style) {
+      case BannerStyle.adaptive:
+        return SmartBannerThemeData.adaptive();
+      case BannerStyle.android:
+        // TODO: check brightness to return dark or light theme
+        return const SmartBannerThemeData.androidDark();
+      case BannerStyle.ios:
+        return const SmartBannerThemeData.ios();
+    }
+  }
+
+  void hideBanner() {
+    _animationController.forward();
+  }
+
+  void showBanner() {
+    _animationController.reverse();
+  }
+}
+
+class _SmartBannerScope extends InheritedWidget {
+  const _SmartBannerScope({
+    required this.state,
+    required super.child,
+  });
+
+  final SmartBannerScaffoldState state;
+
+  @override
+  bool updateShouldNotify(_SmartBannerScope oldWidget) {
+    return state != oldWidget.state;
   }
 }
 

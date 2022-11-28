@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'smart_banner.dart';
 import 'smart_banner_position.dart';
 import 'smart_banner_properties.dart';
+import 'theme.dart';
 
 class SmartBannerScaffold extends StatelessWidget {
   const SmartBannerScaffold({
@@ -22,6 +23,20 @@ class SmartBannerScaffold extends StatelessWidget {
     // If not on a web app, just return the child
     if (!kIsWeb) return child;
 
+    final SmartBannerThemeData effectiveTheme;
+    switch (style) {
+      case SmartBannerStyle.adaptive:
+        effectiveTheme = SmartBannerThemeData.adaptive();
+        break;
+      case SmartBannerStyle.android:
+        // TODO: check brightness to return dark or light theme
+        effectiveTheme = const SmartBannerThemeData.androidDark();
+        break;
+      case SmartBannerStyle.ios:
+        effectiveTheme = const SmartBannerThemeData.ios();
+        break;
+    }
+
     final banner = SmartBanner(
       properties: SmartBannerProperties.withUrl(
         title: 'MyPage',
@@ -35,7 +50,7 @@ class SmartBannerScaffold extends StatelessWidget {
           onAndroid: Uri(),
           onIOS: Uri(),
         ),
-        icon: const SmartBannerAssetIcon.fromAsset(''),
+        icon: const _AppImagePlaceholder(),
       ),
       style: style,
     );
@@ -50,11 +65,30 @@ class SmartBannerScaffold extends StatelessWidget {
       ),
     ];
 
-    return Column(
-      mainAxisSize: MainAxisSize.min,
-      children: position == SmartBannerPosition.top
-          ? children
-          : children.reversed.toList(),
+    return SmartBannerTheme(
+      data: effectiveTheme,
+      child: Column(
+        mainAxisSize: MainAxisSize.min,
+        children: position == SmartBannerPosition.top
+            ? children
+            : children.reversed.toList(),
+      ),
+    );
+  }
+}
+
+class _AppImagePlaceholder extends StatelessWidget {
+  const _AppImagePlaceholder();
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      height: 57,
+      width: 57,
+      decoration: const BoxDecoration(
+        color: Colors.black,
+        borderRadius: BorderRadius.all(Radius.circular(10)),
+      ),
     );
   }
 }

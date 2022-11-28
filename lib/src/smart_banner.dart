@@ -34,62 +34,46 @@ class SmartBanner extends StatefulWidget implements PreferredSizeWidget {
 class _SmartBannerState extends State<SmartBanner> {
   @override
   Widget build(BuildContext context) {
+    final theme = SmartBannerTheme.of(context);
     final effectiveLang = widget.properties.appStoreLanguage ??
         Localizations.localeOf(context).languageCode;
 
-    final SmartBannerThemeData effectiveTheme;
-    switch (widget.style) {
-      case SmartBannerStyle.adaptive:
-        effectiveTheme = SmartBannerThemeData.adaptive();
-        break;
-      case SmartBannerStyle.android:
-        // TODO: check brightness to return dark or light theme
-        effectiveTheme = const SmartBannerThemeData.androidDark();
-        break;
-      case SmartBannerStyle.ios:
-        effectiveTheme = const SmartBannerThemeData.ios();
-        break;
-    }
-
-    return SmartBannerTheme(
-      data: effectiveTheme,
-      child: Material(
-        child: Container(
-          padding: const EdgeInsets.symmetric(horizontal: 10.0),
-          height: widget.preferredSize.height,
-          width: double.maxFinite,
-          decoration: BoxDecoration(
-            color: effectiveTheme.backgroundColor,
-            boxShadow: [
-              BoxShadow(
-                color: effectiveTheme.shadowColor,
-                blurRadius: 2.0,
-                offset: const Offset(0, 1),
+    return Material(
+      child: Container(
+        padding: const EdgeInsets.symmetric(horizontal: 10.0),
+        height: widget.preferredSize.height,
+        width: double.maxFinite,
+        decoration: BoxDecoration(
+          color: theme.backgroundColor,
+          boxShadow: [
+            BoxShadow(
+              color: theme.shadowColor,
+              blurRadius: 2.0,
+              offset: const Offset(0, 1),
+            ),
+          ],
+        ),
+        child: Row(
+          children: [
+            _CloseButton(onClose: widget.properties.onClose),
+            const SizedBox(width: 5),
+            widget.properties.icon,
+            const SizedBox(width: 12),
+            Expanded(
+              child: _TitleAuthorAndStore(
+                title: widget.properties.title,
+                store: widget.properties.storeText,
+                price: widget.properties.priceText,
+                author: widget.properties.author,
               ),
-            ],
-          ),
-          child: Row(
-            children: [
-              _CloseButton(onClose: widget.properties.onClose),
-              const SizedBox(width: 5),
-              const _AppImage(),
-              const SizedBox(width: 12),
-              Expanded(
-                child: _TitleAuthorAndStore(
-                  title: widget.properties.title,
-                  store: widget.properties.storeText,
-                  price: widget.properties.priceText,
-                  author: widget.properties.author,
-                ),
-              ),
-              _ViewButton(
-                effectiveLang: effectiveLang,
-                label: widget.properties.buttonLabel,
-                url: widget.properties.url,
-                appId: widget.properties.id,
-              ),
-            ],
-          ),
+            ),
+            _ViewButton(
+              effectiveLang: effectiveLang,
+              label: widget.properties.buttonLabel,
+              url: widget.properties.url,
+              appId: widget.properties.id,
+            ),
+          ],
         ),
       ),
     );
@@ -112,22 +96,6 @@ class _CloseButton extends StatelessWidget {
       },
       iconSize: 18,
       icon: const Text('×'),
-    );
-  }
-}
-
-class _AppImage extends StatelessWidget {
-  const _AppImage();
-
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      height: 57,
-      width: 57,
-      decoration: const BoxDecoration(
-        color: Colors.black,
-        borderRadius: BorderRadius.all(Radius.circular(10)),
-      ),
     );
   }
 }

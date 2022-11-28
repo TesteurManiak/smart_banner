@@ -1,4 +1,5 @@
 import 'package:flutter/foundation.dart';
+import 'package:flutter/material.dart';
 
 import 'smart_banner_property.dart';
 
@@ -39,10 +40,10 @@ class SmartBannerProperties {
   /// Price text.
   final PriceText priceText;
 
+  final Widget icon;
+
   final SmartBannerUri? url;
   final SmartBannerId? id;
-
-  final SmartBannerAssetIcon icon;
 
   /// App author.
   final String? author;
@@ -88,20 +89,6 @@ class SmartBannerUri extends SmartBannerProperty<Uri> {
     required super.onAndroid,
     required super.onIOS,
   });
-}
-
-class SmartBannerAssetIcon extends SmartBannerProperty<String> {
-  SmartBannerAssetIcon({
-    required super.onIOS,
-    required super.onAndroid,
-  });
-
-  const SmartBannerAssetIcon.fromAsset(
-    String asset,
-  ) : super(
-          onAndroid: asset,
-          onIOS: asset,
-        );
 }
 
 class SmartBannerId extends SmartBannerProperty<String> {

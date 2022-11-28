@@ -9,7 +9,7 @@ import 'theme/theme.dart';
 import 'theme/theme_data.dart';
 import 'utils/target_platform_extension.dart';
 
-const _kAnimationDuration = Duration(milliseconds: 500);
+const _kAnimationDuration = Duration(milliseconds: 300);
 
 class SmartBannerScaffold extends StatefulWidget {
   const SmartBannerScaffold({
@@ -86,25 +86,39 @@ class SmartBannerScaffoldState extends State<SmartBannerScaffold>
 
     final effectiveTheme = _getEffectiveTheme();
     final children = <Widget>[
-      SlideTransition(
-        position: _offsetAnimation,
-        child: SmartBanner(
-          properties: BannerProperties.withUrl(
-            title: 'MyPage',
-            buttonLabel: 'VIEW',
-            storeText: const StoreText(
-              onIOS: 'On the App Store',
-              onAndroid: 'In Google Play',
+      AnimatedBuilder(
+        animation: _offsetAnimation,
+        builder: (context, _) {
+          double offset = kBannerHeight * _offsetAnimation.value.dy;
+          if (offset < 0) offset *= -1;
+          final height = kBannerHeight - offset;
+
+          return SizedBox(
+            height: height,
+            child: SingleChildScrollView(
+              child: SizedBox(
+                height: kBannerHeight,
+                child: SmartBanner(
+                  properties: BannerProperties.withUrl(
+                    title: 'MyPage',
+                    buttonLabel: 'VIEW',
+                    storeText: const StoreText(
+                      onIOS: 'On the App Store',
+                      onAndroid: 'In Google Play',
+                    ),
+                    priceText: const PriceText.fromPrice('Free'),
+                    url: SmartBannerUri(
+                      onAndroid: Uri(),
+                      onIOS: Uri(),
+                    ),
+                    icon: const _AppImagePlaceholder(),
+                  ),
+                  style: widget.style,
+                ),
+              ),
             ),
-            priceText: const PriceText.fromPrice('Free'),
-            url: SmartBannerUri(
-              onAndroid: Uri(),
-              onIOS: Uri(),
-            ),
-            icon: const _AppImagePlaceholder(),
-          ),
-          style: widget.style,
-        ),
+          );
+        },
       ),
       Expanded(
         child: widget.child,

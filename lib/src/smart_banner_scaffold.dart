@@ -30,7 +30,7 @@ class SmartBannerScaffold extends StatelessWidget {
           onIOS: 'On the App Store',
           onAndroid: 'In Google Play',
         ),
-        priceText: const PriceText.fromPrice('FREE'),
+        priceText: const PriceText.fromPrice('Free'),
         url: SmartBannerUri(
           onAndroid: Uri(),
           onIOS: Uri(),

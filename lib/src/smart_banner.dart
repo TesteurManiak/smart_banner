@@ -72,16 +72,15 @@ class _SmartBannerState extends State<SmartBanner> {
             children: [
               _CloseButton(onClose: widget.properties.onClose),
               const SizedBox(width: 5),
-              Container(
-                height: 57,
-                width: 57,
-                decoration: const BoxDecoration(
-                  color: Colors.black,
-                  borderRadius: BorderRadius.all(Radius.circular(10)),
+              const _AppImage(),
+              const SizedBox(width: 12),
+              Expanded(
+                child: _TitleAndStore(
+                  title: widget.properties.title,
+                  store: widget.properties.storeText,
+                  price: widget.properties.priceText,
                 ),
               ),
-              const SizedBox(width: 12),
-              Expanded(child: Text(widget.properties.title)),
               _ViewButton(
                 effectiveLang: effectiveLang,
                 label: widget.properties.buttonLabel,
@@ -112,6 +111,46 @@ class _CloseButton extends StatelessWidget {
       },
       iconSize: 18,
       icon: const Text('×'),
+    );
+  }
+}
+
+class _AppImage extends StatelessWidget {
+  const _AppImage();
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      height: 57,
+      width: 57,
+      decoration: const BoxDecoration(
+        color: Colors.black,
+        borderRadius: BorderRadius.all(Radius.circular(10)),
+      ),
+    );
+  }
+}
+
+class _TitleAndStore extends StatelessWidget {
+  const _TitleAndStore({
+    required this.title,
+    required this.price,
+    required this.store,
+  });
+
+  final String title;
+  final PriceText price;
+  final StoreText store;
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      mainAxisSize: MainAxisSize.min,
+      children: [
+        Text(title),
+        Text('${price.property} - ${store.property}'),
+      ],
     );
   }
 }

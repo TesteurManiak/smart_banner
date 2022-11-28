@@ -35,13 +35,14 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final bannerModel = context.watch<BannerModel>();
+
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       title: 'Flutter Demo',
       builder: (context, child) {
         if (child != null) {
           return SmartBannerScaffold(
-            style: BannerStyle.ios,
+            style: bannerModel.style,
             position: bannerModel.position,
             child: child,
           );

@@ -2,11 +2,20 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:smart_banner/smart_banner.dart';
 
+import 'separated_column.dart';
+
 class BannerModel extends ChangeNotifier {
   BannerPosition _position = BannerPosition.top;
   BannerPosition get position => _position;
   set position(BannerPosition value) {
     _position = value;
+    notifyListeners();
+  }
+
+  BannerStyle _style = BannerStyle.ios;
+  BannerStyle get style => _style;
+  set style(BannerStyle value) {
+    _style = value;
     notifyListeners();
   }
 }
@@ -61,14 +70,14 @@ class _MyHomePageState extends State<MyHomePage> {
         title: const Text('Flutter Demo Home Page'),
       ),
       body: Center(
-        child: Column(
+        child: SeparatedColumn(
           mainAxisSize: MainAxisSize.min,
+          separator: const SizedBox(height: 16),
           children: [
             ElevatedButton(
               onPressed: () => SmartBannerScaffold.showBanner(context),
               child: const Text('Show Banner'),
             ),
-            const SizedBox(height: 16),
             ElevatedButton(
               onPressed: () => Navigator.push(
                 context,
@@ -78,7 +87,6 @@ class _MyHomePageState extends State<MyHomePage> {
               ),
               child: const Text('Push Page'),
             ),
-            const SizedBox(height: 16),
             DropdownButton<BannerPosition>(
               value: bannerModel.position,
               items: BannerPosition.values
@@ -87,6 +95,17 @@ class _MyHomePageState extends State<MyHomePage> {
               onChanged: (position) {
                 if (position != null) {
                   bannerModel.position = position;
+                }
+              },
+            ),
+            DropdownButton<BannerStyle>(
+              value: bannerModel.style,
+              items: BannerStyle.values
+                  .map((e) => DropdownMenuItem(value: e, child: Text(e.name)))
+                  .toList(),
+              onChanged: (style) {
+                if (style != null) {
+                  bannerModel.style = style;
                 }
               },
             ),

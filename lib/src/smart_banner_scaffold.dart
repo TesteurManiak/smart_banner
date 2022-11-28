@@ -15,6 +15,7 @@ class SmartBannerScaffold extends StatefulWidget {
   const SmartBannerScaffold({
     super.key,
     required this.child,
+    required this.properties,
     this.position = BannerPosition.top,
     this.style = BannerStyle.adaptive,
     this.animationDuration = _kAnimationDuration,
@@ -24,6 +25,7 @@ class SmartBannerScaffold extends StatefulWidget {
   final Widget child;
   final BannerPosition position;
   final BannerStyle style;
+  final BannerProperties properties;
   final Duration animationDuration;
   final Curve animationCurve;
 
@@ -99,20 +101,7 @@ class SmartBannerScaffoldState extends State<SmartBannerScaffold>
               child: SizedBox(
                 height: kBannerHeight,
                 child: SmartBanner(
-                  properties: BannerProperties.withUrl(
-                    title: 'MyPage',
-                    buttonLabel: 'VIEW',
-                    storeText: const StoreText(
-                      onIOS: 'On the App Store',
-                      onAndroid: 'In Google Play',
-                    ),
-                    priceText: const PriceText.fromPrice('Free'),
-                    url: SmartBannerUri(
-                      onAndroid: Uri(),
-                      onIOS: Uri(),
-                    ),
-                    icon: const _AppImagePlaceholder(),
-                  ),
+                  properties: widget.properties,
                   style: widget.style,
                 ),
               ),
@@ -170,21 +159,5 @@ class _SmartBannerScope extends InheritedWidget {
   @override
   bool updateShouldNotify(_SmartBannerScope oldWidget) {
     return state != oldWidget.state;
-  }
-}
-
-class _AppImagePlaceholder extends StatelessWidget {
-  const _AppImagePlaceholder();
-
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      height: 57,
-      width: 57,
-      decoration: const BoxDecoration(
-        color: Colors.black,
-        borderRadius: BorderRadius.all(Radius.circular(10)),
-      ),
-    );
   }
 }

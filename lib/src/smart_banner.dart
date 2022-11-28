@@ -36,7 +36,10 @@ class SmartBanner extends StatelessWidget {
           children: [
             _CloseButton(onClose: properties.onClose),
             const SizedBox(width: 5),
-            properties.icon,
+            ConstrainedBox(
+              constraints: const BoxConstraints(maxHeight: 57, maxWidth: 57),
+              child: properties.icon,
+            ),
             const SizedBox(width: 12),
             Expanded(
               child: _TitleAuthorAndStore(

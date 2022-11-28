@@ -1,8 +1,23 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:smart_banner/smart_banner.dart';
 
+class BannerModel extends ChangeNotifier {
+  BannerPosition _position = BannerPosition.top;
+  BannerPosition get position => _position;
+  set position(BannerPosition value) {
+    _position = value;
+    notifyListeners();
+  }
+}
+
 void main() {
-  runApp(const MyApp());
+  runApp(
+    ChangeNotifierProvider(
+      create: (_) => BannerModel(),
+      child: const MyApp(),
+    ),
+  );
 }
 
 class MyApp extends StatelessWidget {
@@ -10,14 +25,15 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final bannerModel = context.watch<BannerModel>();
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       title: 'Flutter Demo',
-      theme: ThemeData(primarySwatch: Colors.blue),
       builder: (context, child) {
         if (child != null) {
           return SmartBannerScaffold(
             style: BannerStyle.ios,
+            position: bannerModel.position,
             child: child,
           );
         }
@@ -38,6 +54,8 @@ class MyHomePage extends StatefulWidget {
 class _MyHomePageState extends State<MyHomePage> {
   @override
   Widget build(BuildContext context) {
+    final bannerModel = context.watch<BannerModel>();
+
     return Scaffold(
       appBar: AppBar(
         title: const Text('Flutter Demo Home Page'),
@@ -47,9 +65,7 @@ class _MyHomePageState extends State<MyHomePage> {
           mainAxisSize: MainAxisSize.min,
           children: [
             ElevatedButton(
-              onPressed: () {
-                SmartBannerScaffold.showBanner(context);
-              },
+              onPressed: () => SmartBannerScaffold.showBanner(context),
               child: const Text('Show Banner'),
             ),
             const SizedBox(height: 16),
@@ -61,6 +77,18 @@ class _MyHomePageState extends State<MyHomePage> {
                 ),
               ),
               child: const Text('Push Page'),
+            ),
+            const SizedBox(height: 16),
+            DropdownButton<BannerPosition>(
+              value: bannerModel.position,
+              items: BannerPosition.values
+                  .map((e) => DropdownMenuItem(value: e, child: Text(e.name)))
+                  .toList(),
+              onChanged: (position) {
+                if (position != null) {
+                  bannerModel.position = position;
+                }
+              },
             ),
           ],
         ),

@@ -1,28 +1,23 @@
 import 'package:flutter/material.dart';
 import 'package:url_launcher/url_launcher.dart';
 
-import 'smart_banner_properties.dart';
+import 'banner_properties.dart';
+import 'banner_style.dart';
 import 'theme.dart';
 
 const _bannerHeight = 80.0;
-
-enum SmartBannerStyle {
-  adaptive,
-  android,
-  ios,
-}
 
 class SmartBanner extends StatefulWidget implements PreferredSizeWidget {
   const SmartBanner({
     super.key,
     required this.properties,
-    this.style = SmartBannerStyle.adaptive,
+    this.style = BannerStyle.adaptive,
   });
 
-  final SmartBannerProperties properties;
+  final BannerProperties properties;
 
   /// Used to enforce a specific style no matter the platform you are on.
-  final SmartBannerStyle style;
+  final BannerStyle style;
 
   @override
   State<SmartBanner> createState() => _SmartBannerState();

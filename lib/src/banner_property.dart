@@ -1,7 +1,7 @@
 import 'package:flutter/foundation.dart';
 
-class SmartBannerProperty<T> {
-  const SmartBannerProperty({
+class BannerProperty<T> {
+  const BannerProperty({
     required this.onIOS,
     required this.onAndroid,
   });

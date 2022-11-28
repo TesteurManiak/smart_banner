@@ -1,22 +1,23 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 
+import 'banner_position.dart';
+import 'banner_properties.dart';
+import 'banner_style.dart';
 import 'smart_banner.dart';
-import 'smart_banner_position.dart';
-import 'smart_banner_properties.dart';
 import 'theme.dart';
 
 class SmartBannerScaffold extends StatelessWidget {
   const SmartBannerScaffold({
     super.key,
     required this.child,
-    this.position = SmartBannerPosition.top,
-    this.style = SmartBannerStyle.adaptive,
+    this.position = BannerPosition.top,
+    this.style = BannerStyle.adaptive,
   });
 
   final Widget child;
-  final SmartBannerPosition position;
-  final SmartBannerStyle style;
+  final BannerPosition position;
+  final BannerStyle style;
 
   @override
   Widget build(BuildContext context) {
@@ -25,20 +26,20 @@ class SmartBannerScaffold extends StatelessWidget {
 
     final SmartBannerThemeData effectiveTheme;
     switch (style) {
-      case SmartBannerStyle.adaptive:
+      case BannerStyle.adaptive:
         effectiveTheme = SmartBannerThemeData.adaptive();
         break;
-      case SmartBannerStyle.android:
+      case BannerStyle.android:
         // TODO: check brightness to return dark or light theme
         effectiveTheme = const SmartBannerThemeData.androidDark();
         break;
-      case SmartBannerStyle.ios:
+      case BannerStyle.ios:
         effectiveTheme = const SmartBannerThemeData.ios();
         break;
     }
 
     final banner = SmartBanner(
-      properties: SmartBannerProperties.withUrl(
+      properties: BannerProperties.withUrl(
         title: 'MyPage',
         buttonLabel: 'VIEW',
         storeText: const StoreText(
@@ -69,7 +70,7 @@ class SmartBannerScaffold extends StatelessWidget {
       data: effectiveTheme,
       child: Column(
         mainAxisSize: MainAxisSize.min,
-        children: position == SmartBannerPosition.top
+        children: position == BannerPosition.top
             ? children
             : children.reversed.toList(),
       ),

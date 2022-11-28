@@ -1,10 +1,10 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 
-import 'smart_banner_property.dart';
+import 'banner_property.dart';
 
-class SmartBannerProperties {
-  const SmartBannerProperties.withUrl({
+class BannerProperties {
+  const BannerProperties.withUrl({
     required this.title,
     required this.buttonLabel,
     required this.storeText,
@@ -16,7 +16,7 @@ class SmartBannerProperties {
     this.onClose,
   }) : id = null;
 
-  const SmartBannerProperties.withId({
+  const BannerProperties.withId({
     required this.title,
     required this.buttonLabel,
     required this.storeText,
@@ -57,7 +57,7 @@ class SmartBannerProperties {
   final VoidCallback? onClose;
 }
 
-class StoreText extends SmartBannerProperty<String> {
+class StoreText extends BannerProperty<String> {
   const StoreText({
     required super.onAndroid,
     required super.onIOS,
@@ -70,7 +70,7 @@ class StoreText extends SmartBannerProperty<String> {
         );
 }
 
-class PriceText extends SmartBannerProperty<String> {
+class PriceText extends BannerProperty<String> {
   const PriceText({
     required super.onAndroid,
     required super.onIOS,
@@ -84,14 +84,14 @@ class PriceText extends SmartBannerProperty<String> {
         );
 }
 
-class SmartBannerUri extends SmartBannerProperty<Uri> {
+class SmartBannerUri extends BannerProperty<Uri> {
   const SmartBannerUri({
     required super.onAndroid,
     required super.onIOS,
   });
 }
 
-class SmartBannerId extends SmartBannerProperty<String> {
+class SmartBannerId extends BannerProperty<String> {
   const SmartBannerId({
     required super.onAndroid,
     required super.onIOS,

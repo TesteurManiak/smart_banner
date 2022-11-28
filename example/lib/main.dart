@@ -17,7 +17,7 @@ class MyApp extends StatelessWidget {
       builder: (context, child) {
         if (child != null) {
           return SmartBannerScaffold(
-            style: SmartBannerStyle.ios,
+            style: BannerStyle.ios,
             child: child,
           );
         }

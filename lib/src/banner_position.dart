@@ -1,0 +1,4 @@
+enum BannerPosition {
+  top,
+  bottom,
+}

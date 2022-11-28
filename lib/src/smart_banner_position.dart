@@ -1,4 +1,0 @@
-enum SmartBannerPosition {
-  top,
-  bottom,
-}

@@ -12,7 +12,7 @@ class SmartBannerTheme extends StatelessWidget {
   final SmartBannerThemeData data;
   final Widget child;
 
-  static final _kFallbackTheme = SmartBannerThemeData.adaptive();
+  static final _kFallbackTheme = SmartBannerThemeData.adaptive(isDark: false);
 
   static SmartBannerThemeData of(BuildContext context) {
     final inheritedTheme = context

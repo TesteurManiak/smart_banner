@@ -22,11 +22,28 @@ class SmartBannerThemeData {
         _buttonTextStyle = BannerTextStyles.buttonIOS,
         _titleTextStyle = BannerTextStyles.titleIOS;
 
-  factory SmartBannerThemeData.adaptive() {
+  // TODO: create real android theme
+  const SmartBannerThemeData.androidLight()
+      : backgroundColor = BannerColorPalette.backgroundIOS,
+        shadowColor = Colors.black,
+        _buttonColor = BannerColorPalette.buttonIOS,
+        _titleColor = BannerColorPalette.titleIOS,
+        _buttonTextStyle = BannerTextStyles.buttonIOS,
+        _titleTextStyle = BannerTextStyles.titleIOS;
+
+  factory SmartBannerThemeData.androidAdaptive({required bool isDark}) {
+    if (isDark) {
+      return const SmartBannerThemeData.androidDark();
+    } else {
+      return const SmartBannerThemeData.androidLight();
+    }
+  }
+
+  factory SmartBannerThemeData.adaptive({required bool isDark}) {
     if (defaultTargetPlatform == TargetPlatform.iOS) {
       return const SmartBannerThemeData.ios();
     } else {
-      return const SmartBannerThemeData.androidDark();
+      return SmartBannerThemeData.androidAdaptive(isDark: isDark);
     }
   }
 

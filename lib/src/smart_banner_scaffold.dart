@@ -109,9 +109,7 @@ class SmartBannerScaffoldState extends State<SmartBannerScaffold>
           );
         },
       ),
-      Expanded(
-        child: widget.child,
-      ),
+      Expanded(child: widget.child),
     ];
 
     return _SmartBannerScope(
@@ -128,12 +126,12 @@ class SmartBannerScaffoldState extends State<SmartBannerScaffold>
   }
 
   SmartBannerThemeData _getEffectiveTheme() {
+    final isDark = Theme.of(context).brightness == Brightness.dark;
     switch (widget.style) {
       case BannerStyle.adaptive:
-        return SmartBannerThemeData.adaptive();
+        return SmartBannerThemeData.adaptive(isDark: isDark);
       case BannerStyle.android:
-        // TODO: check brightness to return dark or light theme
-        return const SmartBannerThemeData.androidDark();
+        return SmartBannerThemeData.androidAdaptive(isDark: isDark);
       case BannerStyle.ios:
         return const SmartBannerThemeData.ios();
     }

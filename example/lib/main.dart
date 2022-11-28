@@ -23,15 +23,13 @@ class MyApp extends StatelessWidget {
         }
         return const SizedBox.shrink();
       },
-      home: const MyHomePage(title: 'Flutter Demo Home Page'),
+      home: const MyHomePage(),
     );
   }
 }
 
 class MyHomePage extends StatefulWidget {
-  const MyHomePage({super.key, required this.title});
-
-  final String title;
+  const MyHomePage({super.key});
 
   @override
   State<MyHomePage> createState() => _MyHomePageState();
@@ -42,14 +40,29 @@ class _MyHomePageState extends State<MyHomePage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text(widget.title),
+        title: const Text('Flutter Demo Home Page'),
       ),
       body: Center(
-        child: ElevatedButton(
-          child: const Text('Show Banner'),
-          onPressed: () {
-            SmartBannerScaffold.showBanner(context);
-          },
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            ElevatedButton(
+              onPressed: () {
+                SmartBannerScaffold.showBanner(context);
+              },
+              child: const Text('Show Banner'),
+            ),
+            const SizedBox(height: 16),
+            ElevatedButton(
+              onPressed: () => Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (_) => const MyHomePage(),
+                ),
+              ),
+              child: const Text('Push Page'),
+            ),
+          ],
         ),
       ),
     );

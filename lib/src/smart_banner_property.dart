@@ -14,5 +14,5 @@ class SmartBannerProperty<T> {
 
   /// Return the property value based on the [defaultTargetPlatform].
   T get property =>
-      defaultTargetPlatform == TargetPlatform.iOS ? onIOS : onAndroid;
+      defaultTargetPlatform == TargetPlatform.android ? onAndroid : onIOS;
 }

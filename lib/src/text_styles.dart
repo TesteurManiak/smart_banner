@@ -7,4 +7,10 @@ class SmartBannerTextStyles {
     fontSize: 15.0,
     fontWeight: FontWeight.w400,
   );
+
+  static const titleIOS = TextStyle(
+    fontSize: 13.0,
+    fontWeight: FontWeight.w500,
+    overflow: TextOverflow.ellipsis,
+  );
 }

@@ -75,10 +75,11 @@ class _SmartBannerState extends State<SmartBanner> {
               const _AppImage(),
               const SizedBox(width: 12),
               Expanded(
-                child: _TitleAndStore(
+                child: _TitleAuthorAndStore(
                   title: widget.properties.title,
                   store: widget.properties.storeText,
                   price: widget.properties.priceText,
+                  author: widget.properties.author,
                 ),
               ),
               _ViewButton(
@@ -131,24 +132,32 @@ class _AppImage extends StatelessWidget {
   }
 }
 
-class _TitleAndStore extends StatelessWidget {
-  const _TitleAndStore({
+class _TitleAuthorAndStore extends StatelessWidget {
+  const _TitleAuthorAndStore({
     required this.title,
     required this.price,
     required this.store,
+    required this.author,
   });
 
   final String title;
   final PriceText price;
   final StoreText store;
+  final String? author;
 
   @override
   Widget build(BuildContext context) {
+    final theme = SmartBannerTheme.of(context);
+    final localAuthor = author;
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       mainAxisSize: MainAxisSize.min,
       children: [
-        Text(title),
+        Text(
+          title,
+          style: theme.titleTextStyle,
+        ),
+        if (localAuthor != null) Text(localAuthor),
         Text('${price.property} - ${store.property}'),
       ],
     );

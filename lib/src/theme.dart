@@ -9,14 +9,18 @@ class SmartBannerThemeData {
       : backgroundColor = SmartBannerColorPalette.backgroundIOS,
         shadowColor = SmartBannerColorPalette.shadowIOS,
         _buttonColor = SmartBannerColorPalette.buttonIOS,
-        _buttonTextStyle = SmartBannerTextStyles.buttonIOS;
+        _titleColor = SmartBannerColorPalette.titleIOS,
+        _buttonTextStyle = SmartBannerTextStyles.buttonIOS,
+        _titleTextStyle = SmartBannerTextStyles.titleIOS;
 
   // TODO: create real android theme
   const SmartBannerThemeData.androidDark()
       : backgroundColor = SmartBannerColorPalette.backgroundAndroidDark,
         shadowColor = Colors.black,
         _buttonColor = SmartBannerColorPalette.buttonIOS,
-        _buttonTextStyle = SmartBannerTextStyles.buttonIOS;
+        _titleColor = SmartBannerColorPalette.titleIOS,
+        _buttonTextStyle = SmartBannerTextStyles.buttonIOS,
+        _titleTextStyle = SmartBannerTextStyles.titleIOS;
 
   factory SmartBannerThemeData.adaptive() {
     if (defaultTargetPlatform == TargetPlatform.iOS) {
@@ -29,10 +33,14 @@ class SmartBannerThemeData {
   final Color backgroundColor;
   final Color shadowColor;
   final Color _buttonColor;
+  final Color _titleColor;
 
   final TextStyle _buttonTextStyle;
   TextStyle get buttonTextStyle =>
       _buttonTextStyle.copyWith(color: _buttonColor);
+
+  final TextStyle _titleTextStyle;
+  TextStyle get titleTextStyle => _titleTextStyle.copyWith(color: _titleColor);
 }
 
 class SmartBannerTheme extends StatelessWidget {

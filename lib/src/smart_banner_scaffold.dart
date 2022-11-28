@@ -23,10 +23,19 @@ class SmartBannerScaffold extends StatefulWidget {
   });
 
   final Widget child;
+
+  /// Position of the banner.
   final BannerPosition position;
+
+  /// Used to force a specific style.
   final BannerStyle style;
+
   final BannerProperties properties;
+
+  /// Duration of the sliding animation.
   final Duration animationDuration;
+
+  /// Curve of the sliding animation.
   final Curve animationCurve;
 
   @override

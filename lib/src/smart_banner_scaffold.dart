@@ -7,7 +7,6 @@ import 'banner_style.dart';
 import 'smart_banner.dart';
 import 'theme/theme.dart';
 import 'theme/theme_data.dart';
-import 'utils/target_platform_extension.dart';
 
 const _kAnimationDuration = Duration(milliseconds: 300);
 
@@ -80,11 +79,6 @@ class SmartBannerScaffoldState extends State<SmartBannerScaffold>
     ),
   );
 
-  bool get _shouldDisplayBanner {
-    if (kDebugMode) return true; // TODO: remove this
-    return kIsWeb && defaultTargetPlatform.isSupported;
-  }
-
   @override
   void dispose() {
     _animationController.dispose();
@@ -93,7 +87,7 @@ class SmartBannerScaffoldState extends State<SmartBannerScaffold>
 
   @override
   Widget build(BuildContext context) {
-    if (!_shouldDisplayBanner) return widget.child;
+    if (!kIsWeb) return widget.child;
 
     final effectiveTheme = _getEffectiveTheme();
     final children = <Widget>[

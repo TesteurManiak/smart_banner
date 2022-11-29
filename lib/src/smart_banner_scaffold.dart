@@ -135,12 +135,11 @@ class SmartBannerScaffoldState extends State<SmartBannerScaffold>
   }
 
   SmartBannerThemeData _getEffectiveTheme() {
-    final isDark = Theme.of(context).brightness == Brightness.dark;
     switch (widget.style) {
       case BannerStyle.adaptive:
-        return SmartBannerThemeData.adaptive(isDark: isDark);
+        return SmartBannerThemeData.adaptive();
       case BannerStyle.android:
-        return SmartBannerThemeData.androidAdaptive(isDark: isDark);
+        return const SmartBannerThemeData.android();
       case BannerStyle.ios:
         return const SmartBannerThemeData.ios();
     }

@@ -4,6 +4,7 @@ import 'package:url_launcher/url_launcher_string.dart';
 
 import '../smart_banner.dart';
 import 'theme/theme.dart';
+import 'utils/separated_text_span.dart';
 
 const kBannerHeight = 80.0;
 
@@ -43,7 +44,7 @@ class SmartBanner extends StatelessWidget {
             ),
             const SizedBox(width: 12),
             Expanded(
-              child: _TitleAuthorAndStore(
+              child: _TitleAndDecription(
                 title: properties.title,
                 store: properties.platformProperties.storeText,
                 price: properties.platformProperties.priceText,
@@ -83,8 +84,8 @@ class _CloseButton extends StatelessWidget {
   }
 }
 
-class _TitleAuthorAndStore extends StatelessWidget {
-  const _TitleAuthorAndStore({
+class _TitleAndDecription extends StatelessWidget {
+  const _TitleAndDecription({
     required this.title,
     required this.price,
     required this.store,
@@ -110,7 +111,16 @@ class _TitleAuthorAndStore extends StatelessWidget {
           style: theme.titleTextStyle,
         ),
         if (localAuthor != null) Text(localAuthor),
-        Text('$price - $store'),
+        Text.rich(
+          SeparatedTextSpan(
+            separator: const TextSpan(text: ' - '),
+            children: [
+              if (price != null) TextSpan(text: price),
+              if (store != null) TextSpan(text: store),
+            ],
+          ),
+          style: theme.descriptionTextStyle,
+        ),
       ],
     );
   }

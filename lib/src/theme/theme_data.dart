@@ -10,40 +10,27 @@ class SmartBannerThemeData {
         shadowColor = BannerColorPalette.shadowIOS,
         _buttonColor = BannerColorPalette.buttonIOS,
         _titleColor = BannerColorPalette.titleIOS,
+        _descriptionColor = BannerColorPalette.descriptionIOS,
         _buttonTextStyle = BannerTextStyles.buttonIOS,
-        _titleTextStyle = BannerTextStyles.titleIOS;
+        _titleTextStyle = BannerTextStyles.titleIOS,
+        _descriptionTextStyle = BannerTextStyles.descriptionIOS;
 
   // TODO: create real android theme
-  const SmartBannerThemeData.androidDark()
+  const SmartBannerThemeData.android()
       : backgroundColor = BannerColorPalette.backgroundAndroidDark,
         shadowColor = Colors.black,
         _buttonColor = BannerColorPalette.buttonIOS,
         _titleColor = BannerColorPalette.titleIOS,
+        _descriptionColor = BannerColorPalette.descriptionIOS,
         _buttonTextStyle = BannerTextStyles.buttonIOS,
-        _titleTextStyle = BannerTextStyles.titleIOS;
+        _titleTextStyle = BannerTextStyles.titleIOS,
+        _descriptionTextStyle = BannerTextStyles.descriptionIOS;
 
-  // TODO: create real android theme
-  const SmartBannerThemeData.androidLight()
-      : backgroundColor = BannerColorPalette.backgroundIOS,
-        shadowColor = Colors.black,
-        _buttonColor = BannerColorPalette.buttonIOS,
-        _titleColor = BannerColorPalette.titleIOS,
-        _buttonTextStyle = BannerTextStyles.buttonIOS,
-        _titleTextStyle = BannerTextStyles.titleIOS;
-
-  factory SmartBannerThemeData.androidAdaptive({required bool isDark}) {
-    if (isDark) {
-      return const SmartBannerThemeData.androidDark();
-    } else {
-      return const SmartBannerThemeData.androidLight();
-    }
-  }
-
-  factory SmartBannerThemeData.adaptive({required bool isDark}) {
+  factory SmartBannerThemeData.adaptive() {
     if (defaultTargetPlatform == TargetPlatform.iOS) {
       return const SmartBannerThemeData.ios();
     } else {
-      return SmartBannerThemeData.androidAdaptive(isDark: isDark);
+      return const SmartBannerThemeData.android();
     }
   }
 
@@ -51,6 +38,7 @@ class SmartBannerThemeData {
   final Color shadowColor;
   final Color _buttonColor;
   final Color _titleColor;
+  final Color _descriptionColor;
 
   final TextStyle _buttonTextStyle;
   TextStyle get buttonTextStyle =>
@@ -58,4 +46,8 @@ class SmartBannerThemeData {
 
   final TextStyle _titleTextStyle;
   TextStyle get titleTextStyle => _titleTextStyle.copyWith(color: _titleColor);
+
+  final TextStyle _descriptionTextStyle;
+  TextStyle get descriptionTextStyle =>
+      _descriptionTextStyle.copyWith(color: _descriptionColor);
 }

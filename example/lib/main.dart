@@ -44,17 +44,18 @@ class MyApp extends StatelessWidget {
           return SmartBannerScaffold(
             style: bannerModel.style,
             position: bannerModel.position,
-            properties: BannerProperties.withUrl(
+            properties: BannerProperties(
               title: 'Facebook',
               buttonLabel: 'VIEW',
-              storeText: const StoreText(
-                onIOS: 'On the App Store',
-                onAndroid: 'In Google Play',
+              androidProperties: const BannerPropertiesAndroid(
+                packageName: 'com.facebook.katana',
+                storeText: 'In Google Play',
+                priceText: 'Free',
               ),
-              priceText: const PriceText.fromPrice('Free'),
-              url: SmartBannerUri(
-                onAndroid: Uri(),
-                onIOS: Uri(),
+              iosProperties: const BannerPropertiesIOS(
+                appId: '284882215',
+                storeText: 'On the App Store',
+                priceText: 'Free',
               ),
               icon: Image.network(
                 'https://upload.wikimedia.org/wikipedia/commons/c/cd/Facebook_logo_%28square%29.png',

@@ -1,32 +1,17 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 
-import 'banner_property.dart';
-
 class BannerProperties {
-  const BannerProperties.withUrl({
+  const BannerProperties({
     required this.title,
     required this.buttonLabel,
-    required this.storeText,
-    required this.priceText,
     required this.icon,
-    required SmartBannerUri this.url,
+    required this.androidProperties,
+    required this.iosProperties,
     this.author,
     this.appStoreLanguage,
     this.onClose,
-  }) : id = null;
-
-  const BannerProperties.withId({
-    required this.title,
-    required this.buttonLabel,
-    required this.storeText,
-    required this.priceText,
-    required this.icon,
-    required SmartBannerId this.id,
-    this.author,
-    this.appStoreLanguage,
-    this.onClose,
-  }) : url = null;
+  });
 
   /// App title.
   final String title;
@@ -34,16 +19,9 @@ class BannerProperties {
   /// The label of the install button that will be displayed on the banner.
   final String buttonLabel;
 
-  /// The text that will be displayed on the banner.
-  final StoreText storeText;
-
-  /// Price text.
-  final PriceText priceText;
-
   final Widget icon;
-
-  final SmartBannerUri? url;
-  final SmartBannerId? id;
+  final BannerPropertiesAndroid androidProperties;
+  final BannerPropertiesIOS iosProperties;
 
   /// App author.
   final String? author;
@@ -55,55 +33,67 @@ class BannerProperties {
 
   /// Callback when the banner is closed.
   final VoidCallback? onClose;
-}
 
-class StoreText extends BannerProperty<String> {
-  const StoreText({
-    required super.onAndroid,
-    required super.onIOS,
-  });
-
-  const StoreText.fromText(String text)
-      : super(
-          onAndroid: text,
-          onIOS: text,
-        );
-}
-
-class PriceText extends BannerProperty<String> {
-  const PriceText({
-    required super.onAndroid,
-    required super.onIOS,
-  });
-
-  const PriceText.fromPrice(
-    String price,
-  ) : super(
-          onAndroid: price,
-          onIOS: price,
-        );
-}
-
-class SmartBannerUri extends BannerProperty<Uri> {
-  const SmartBannerUri({
-    required super.onAndroid,
-    required super.onIOS,
-  });
-}
-
-class SmartBannerId extends BannerProperty<String> {
-  const SmartBannerId({
-    required super.onAndroid,
-    required super.onIOS,
-  });
-
-  String createUrl({
-    required String lang,
-  }) {
-    if (defaultTargetPlatform == TargetPlatform.android) {
-      return 'https://play.google.com/store/apps/details?id=$onAndroid&hl=$lang';
-    } else {
-      return 'https://apps.apple.com/$lang/app/id$onIOS';
+  SmartBannerProperties get platformProperties {
+    switch (defaultTargetPlatform) {
+      case TargetPlatform.android:
+        return androidProperties;
+      default:
+        return iosProperties;
     }
   }
+}
+
+class BannerPropertiesIOS extends SmartBannerProperties {
+  const BannerPropertiesIOS({
+    required super.appId,
+    super.storeText,
+    super.priceText,
+    super.url,
+  });
+}
+
+class BannerPropertiesAndroid extends SmartBannerProperties {
+  const BannerPropertiesAndroid({
+    required String packageName,
+    super.storeText,
+    super.priceText,
+    super.url,
+  }) : super(
+          appId: packageName,
+        );
+
+  String get packageName => appId;
+}
+
+/// Class that represents the properties supported by the banner.
+abstract class SmartBannerProperties {
+  const SmartBannerProperties({
+    required this.appId,
+    this.storeText,
+    this.priceText,
+    this.url,
+  });
+
+  /// App id.
+  ///
+  /// Correspond to the bundle id on iOS and the package name on Android. This
+  /// is used to open the app store if no [url] is provided.
+  final String appId;
+
+  /// The text that will be displayed on the banner.
+  ///
+  /// ex: "On the App Store" or "In Google Play"
+  final String? storeText;
+
+  /// Text that will be displayed on the banner to inform the user about the
+  /// price.
+  ///
+  /// ex: "Free", "$3.99", etc.
+  final String? priceText;
+
+  /// Url that should be launched if the app is installed on the device.
+  ///
+  /// Otherwise, the store page will be opened.
+  final String? url;
 }

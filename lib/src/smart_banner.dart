@@ -1,5 +1,6 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import 'package:url_launcher/url_launcher.dart';
+import 'package:url_launcher/url_launcher_string.dart';
 
 import '../smart_banner.dart';
 import 'theme/theme.dart';
@@ -44,16 +45,16 @@ class SmartBanner extends StatelessWidget {
             Expanded(
               child: _TitleAuthorAndStore(
                 title: properties.title,
-                store: properties.storeText,
-                price: properties.priceText,
+                store: properties.platformProperties.storeText,
+                price: properties.platformProperties.priceText,
                 author: properties.author,
               ),
             ),
             _ViewButton(
-              effectiveLang: effectiveLang,
+              lang: effectiveLang,
               label: properties.buttonLabel,
-              url: properties.url,
-              appId: properties.id,
+              url: properties.platformProperties.url,
+              appId: properties.platformProperties.appId,
             ),
           ],
         ),
@@ -91,14 +92,15 @@ class _TitleAuthorAndStore extends StatelessWidget {
   });
 
   final String title;
-  final PriceText price;
-  final StoreText store;
+  final String? price;
+  final String? store;
   final String? author;
 
   @override
   Widget build(BuildContext context) {
     final theme = SmartBannerTheme.of(context);
     final localAuthor = author;
+
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       mainAxisSize: MainAxisSize.min,
@@ -108,7 +110,7 @@ class _TitleAuthorAndStore extends StatelessWidget {
           style: theme.titleTextStyle,
         ),
         if (localAuthor != null) Text(localAuthor),
-        Text('${price.property} - ${store.property}'),
+        Text('$price - $store'),
       ],
     );
   }
@@ -116,24 +118,22 @@ class _TitleAuthorAndStore extends StatelessWidget {
 
 class _ViewButton extends StatelessWidget {
   const _ViewButton({
-    required this.effectiveLang,
+    required this.lang,
     required this.label,
     required this.url,
     required this.appId,
   });
 
-  final String effectiveLang;
+  final String lang;
   final String label;
-  final SmartBannerUri? url;
-  final SmartBannerId? appId;
+  final String? url;
+  final String appId;
 
   @override
   Widget build(BuildContext context) {
     final theme = SmartBannerTheme.of(context);
     return TextButton(
-      onPressed: () {
-        launchUrl(_createUri());
-      },
+      onPressed: _handleOnPressed,
       child: Text(
         label,
         style: theme.buttonTextStyle,
@@ -141,11 +141,25 @@ class _ViewButton extends StatelessWidget {
     );
   }
 
-  Uri _createUri() {
+  Future<void> _handleOnPressed() async {
     final localUrl = url;
     if (localUrl != null) {
-      return localUrl.property;
+      final canLaunch = await canLaunchUrlString(localUrl);
+      if (canLaunch) {
+        await launchUrlString(localUrl);
+      } else {
+        await launchUrlString(_createUrl());
+      }
+    } else {
+      await launchUrlString(_createUrl());
     }
-    return Uri.parse(appId!.createUrl(lang: effectiveLang));
+  }
+
+  String _createUrl() {
+    if (defaultTargetPlatform == TargetPlatform.android) {
+      return 'https://play.google.com/store/apps/details?id=$appId&hl=$lang';
+    } else {
+      return 'https://apps.apple.com/$lang/app/id$appId';
+    }
   }
 }

@@ -17,14 +17,14 @@ class SmartBannerThemeData {
 
   // TODO: create real android theme
   const SmartBannerThemeData.android()
-      : backgroundColor = BannerColorPalette.backgroundAndroidDark,
+      : backgroundColor = BannerColorPalette.backgroundAndroid,
         shadowColor = Colors.black,
         _buttonColor = BannerColorPalette.buttonIOS,
-        _titleColor = BannerColorPalette.titleIOS,
-        _descriptionColor = BannerColorPalette.descriptionIOS,
+        _titleColor = BannerColorPalette.titleAndroid,
+        _descriptionColor = BannerColorPalette.descriptionAndroid,
         _buttonTextStyle = BannerTextStyles.buttonIOS,
-        _titleTextStyle = BannerTextStyles.titleIOS,
-        _descriptionTextStyle = BannerTextStyles.descriptionIOS;
+        _titleTextStyle = BannerTextStyles.titleAndroid,
+        _descriptionTextStyle = BannerTextStyles.descriptionAndroid;
 
   factory SmartBannerThemeData.adaptive() {
     if (defaultTargetPlatform == TargetPlatform.iOS) {

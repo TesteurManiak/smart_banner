@@ -18,4 +18,6 @@ dev_dependencies:
   flutter_test:
     sdk: flutter
 
-flutter: null
+flutter:
+  assets:
+    - assets/background.png

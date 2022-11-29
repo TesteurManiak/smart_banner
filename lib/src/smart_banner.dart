@@ -5,6 +5,7 @@ import 'package:url_launcher/url_launcher_string.dart';
 import '../smart_banner.dart';
 import 'theme/theme.dart';
 import 'utils/separated_text_span.dart';
+import 'utils/target_platform_extension.dart';
 
 const kBannerHeight = 80.0;
 
@@ -34,6 +35,17 @@ class SmartBanner extends StatelessWidget {
         padding: const EdgeInsets.symmetric(horizontal: 10.0),
         height: kBannerHeight,
         width: double.maxFinite,
+        decoration: style.isAndroid
+            ? const BoxDecoration(
+                image: DecorationImage(
+                  image: AssetImage(
+                    'assets/background.png',
+                    package: 'smart_banner',
+                  ),
+                  repeat: ImageRepeat.repeat,
+                ),
+              )
+            : null,
         child: Row(
           children: [
             _CloseButton(onClose: properties.onClose),
@@ -110,7 +122,11 @@ class _TitleAndDecription extends StatelessWidget {
           title,
           style: theme.titleTextStyle,
         ),
-        if (localAuthor != null) Text(localAuthor),
+        if (localAuthor != null)
+          Text(
+            localAuthor,
+            style: theme.descriptionTextStyle,
+          ),
         Text.rich(
           SeparatedTextSpan(
             separator: const TextSpan(text: ' - '),
@@ -166,7 +182,7 @@ class _ViewButton extends StatelessWidget {
   }
 
   String _createUrl() {
-    if (defaultTargetPlatform == TargetPlatform.android) {
+    if (defaultTargetPlatform.isAndroid) {
       return 'https://play.google.com/store/apps/details?id=$appId&hl=$lang';
     } else {
       return 'https://apps.apple.com/$lang/app/id$appId';

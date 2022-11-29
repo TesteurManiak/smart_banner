@@ -12,8 +12,17 @@ class BannerTextStyles {
     fontWeight: FontWeight.w500,
     overflow: TextOverflow.ellipsis,
   );
+  static const titleAndroid = TextStyle(
+    fontSize: 13.0,
+    fontWeight: FontWeight.w700,
+    overflow: TextOverflow.ellipsis,
+  );
   static const descriptionIOS = TextStyle(
     fontSize: 11.0,
     fontWeight: FontWeight.w300,
+  );
+  static const descriptionAndroid = TextStyle(
+    fontSize: 11.0,
+    fontWeight: FontWeight.w700,
   );
 }

@@ -37,7 +37,7 @@ class MyApp extends StatelessWidget {
 }
 ```
 
-For a more complete example, see [example](./example/)
+For a more complete example, see [example](./example/lib/main.dart).
 
 ## Screenshots
 

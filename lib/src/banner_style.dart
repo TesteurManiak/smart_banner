@@ -19,4 +19,15 @@ extension PlatformStyleExtension on BannerStyle {
         return false;
     }
   }
+
+  bool get isIOS {
+    switch (this) {
+      case BannerStyle.adaptive:
+        return defaultTargetPlatform.isIOS;
+      case BannerStyle.android:
+        return false;
+      case BannerStyle.ios:
+        return true;
+    }
+  }
 }

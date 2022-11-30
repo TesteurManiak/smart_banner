@@ -1,11 +1,9 @@
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:url_launcher/url_launcher_string.dart';
 
 import '../smart_banner.dart';
 import 'theme/theme.dart';
 import 'utils/separated_text_span.dart';
-import 'utils/target_platform_extension.dart';
 
 const kBannerHeight = 80.0;
 
@@ -26,6 +24,8 @@ class SmartBanner extends StatelessWidget {
     final theme = SmartBannerTheme.of(context);
     final effectiveLang = properties.appStoreLanguage ??
         Localizations.localeOf(context).languageCode;
+
+    final platformProperties = properties.getPropertiesFromStyle(style);
 
     return Material(
       color: theme.backgroundColor,
@@ -58,16 +58,15 @@ class SmartBanner extends StatelessWidget {
             Expanded(
               child: _TitleAndDecription(
                 title: properties.title,
-                store: properties.platformProperties.storeText,
-                price: properties.platformProperties.priceText,
+                store: platformProperties.storeText,
+                price: platformProperties.priceText,
                 author: properties.author,
               ),
             ),
             _ViewButton(
-              lang: effectiveLang,
               label: properties.buttonLabel,
-              url: properties.platformProperties.url,
-              appId: properties.platformProperties.appId,
+              url: platformProperties.url,
+              storeUrl: platformProperties.createStoreUrl(effectiveLang),
             ),
           ],
         ),
@@ -144,16 +143,14 @@ class _TitleAndDecription extends StatelessWidget {
 
 class _ViewButton extends StatelessWidget {
   const _ViewButton({
-    required this.lang,
     required this.label,
     required this.url,
-    required this.appId,
+    required this.storeUrl,
   });
 
-  final String lang;
   final String label;
   final String? url;
-  final String appId;
+  final String storeUrl;
 
   @override
   Widget build(BuildContext context) {
@@ -174,18 +171,10 @@ class _ViewButton extends StatelessWidget {
       if (canLaunch) {
         await launchUrlString(localUrl);
       } else {
-        await launchUrlString(_createUrl());
+        await launchUrlString(storeUrl);
       }
     } else {
-      await launchUrlString(_createUrl());
-    }
-  }
-
-  String _createUrl() {
-    if (defaultTargetPlatform.isAndroid) {
-      return 'https://play.google.com/store/apps/details?id=$appId&hl=$lang';
-    } else {
-      return 'https://apps.apple.com/$lang/app/id$appId';
+      await launchUrlString(storeUrl);
     }
   }
 }

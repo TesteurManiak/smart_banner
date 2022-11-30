@@ -1,6 +1,9 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 
+import 'banner_style.dart';
+import 'utils/target_platform_extension.dart';
+
 class BannerProperties {
   const BannerProperties({
     required this.title,
@@ -34,11 +37,15 @@ class BannerProperties {
   /// Callback when the banner is closed.
   final VoidCallback? onClose;
 
-  SmartBannerProperties get platformProperties {
-    switch (defaultTargetPlatform) {
-      case TargetPlatform.android:
+  SmartBannerProperties getPropertiesFromStyle(BannerStyle style) {
+    switch (style) {
+      case BannerStyle.adaptive:
+        return defaultTargetPlatform.isAndroid
+            ? androidProperties
+            : iosProperties;
+      case BannerStyle.android:
         return androidProperties;
-      default:
+      case BannerStyle.ios:
         return iosProperties;
     }
   }
@@ -50,7 +57,9 @@ class BannerPropertiesIOS extends SmartBannerProperties {
     super.storeText,
     super.priceText,
     super.url,
-  });
+  }) : super(
+          storeTemplateUrl: 'https://apps.apple.com/{lang}/app/id{appId}',
+        );
 }
 
 class BannerPropertiesAndroid extends SmartBannerProperties {
@@ -61,6 +70,8 @@ class BannerPropertiesAndroid extends SmartBannerProperties {
     super.url,
   }) : super(
           appId: packageName,
+          storeTemplateUrl:
+              'https://play.google.com/store/apps/details?id={appId}&hl={lang}',
         );
 
   String get packageName => appId;
@@ -70,10 +81,11 @@ class BannerPropertiesAndroid extends SmartBannerProperties {
 abstract class SmartBannerProperties {
   const SmartBannerProperties({
     required this.appId,
+    required String storeTemplateUrl,
     this.storeText,
     this.priceText,
     this.url,
-  });
+  }) : _storeTemplateUrl = storeTemplateUrl;
 
   /// App id.
   ///
@@ -96,4 +108,12 @@ abstract class SmartBannerProperties {
   ///
   /// Otherwise, the store page will be opened.
   final String? url;
+
+  final String _storeTemplateUrl;
+
+  String createStoreUrl(String lang) {
+    return _storeTemplateUrl
+        .replaceFirst('{lang}', lang)
+        .replaceFirst('{appId}', appId);
+  }
 }

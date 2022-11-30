@@ -139,13 +139,9 @@ class SmartBannerScaffoldState extends State<SmartBannerScaffold>
     }
   }
 
-  void hideBanner() {
-    _animationController.forward();
-  }
+  void hideBanner() => _animationController.forward();
 
-  void showBanner() {
-    _animationController.reverse();
-  }
+  void showBanner() => _animationController.reverse();
 }
 
 class _SmartBannerScope extends InheritedWidget {

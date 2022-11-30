@@ -1,5 +1,7 @@
 # Smart Banner
 
+[![Pub Version](https://img.shields.io/pub/v/smart_banner)](https://pub.dev/packages/smart_banner)
+
 Display a smart banner on top of the screen of your Flutter Web application.
 
 Inspired by [smart-app-banner](https://github.com/kudago/smart-app-banner/) and [react-smartbanner](https://github.com/patw0929/react-smartbanner)
@@ -15,22 +17,23 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       builder: (context, child) {
         if (child != null) {
-            return SmartBannerScaffold(
-                properties: BannerProperties(
-                    title: 'MyApp',
-                    buttonLabel: 'VIEW',
-                    androidProperties: BannerPropertiesAndroid(
-                        packageName: 'com.my.app',
-                        icon: Image.asset('assets/android_icon.png'),
-                    ),
-                    iosProperties: BannerPropertiesIOS(
-                        appId: '123456789',
-                        icon: Image.asset('assets/ios_icon.png'),
-                    ),
-                ),
-                child: child,
-            );
+          return SmartBannerScaffold(
+            properties: BannerProperties(
+              title: 'MyApp',
+              buttonLabel: 'VIEW',
+              androidProperties: BannerPropertiesAndroid(
+                packageName: 'com.my.app',
+                icon: Image.asset('assets/android_icon.png'),
+              ),
+              iosProperties: BannerPropertiesIOS(
+                appId: '123456789',
+                icon: Image.asset('assets/ios_icon.png'),
+              ),
+            ),
+            child: child,
+          );
         }
+        return child;
       },
       home: MyHomePage(title: 'Flutter Demo Home Page'),
     );
@@ -38,9 +41,9 @@ class MyApp extends StatelessWidget {
 }
 ```
 
-For a more complete example, see [example](./example/lib/main.dart).
+For a more complete example, see [example](https://github.com/TesteurManiak/smart_banner/blob/main/example/lib/main.dart).
 
 ## Screenshots
 
-![Android Style](screenshots/android_style.png)
-![iOS Style](screenshots/ios_style.png)
+![Android Style](https://github.com/TesteurManiak/smart_banner/blob/main/screenshots/android_style.png?raw=true)
+![iOS Style](https://github.com/TesteurManiak/smart_banner/blob/main/screenshots/ios_style.png?raw=true)

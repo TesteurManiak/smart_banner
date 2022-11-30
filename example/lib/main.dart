@@ -38,7 +38,6 @@ class MyApp extends StatelessWidget {
 
     return MaterialApp(
       debugShowCheckedModeBanner: false,
-      title: 'Flutter Demo',
       builder: (context, child) {
         if (child != null) {
           return SmartBannerScaffold(

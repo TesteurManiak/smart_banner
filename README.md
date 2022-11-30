@@ -4,11 +4,6 @@ Display a smart banner on top of the screen of your Flutter Web application.
 
 Inspired by [smart-app-banner](https://github.com/kudago/smart-app-banner/) and [react-smartbanner](https://github.com/patw0929/react-smartbanner)
 
-## Screenshots
-
-![Android Style](screenshots/android_style.png)
-![iOS Style](screenshots/ios_style.png)
-
 ## Usage
 
 Wrap your view with a `SmartBannerScaffold` widget, if you want a persistant banner on top of your app you might need to directly use it inside the `MaterialApp.builder` property.
@@ -41,3 +36,10 @@ class MyApp extends StatelessWidget {
   }
 }
 ```
+
+For a more complete example, see [example](./example/)
+
+## Screenshots
+
+![Android Style](screenshots/android_style.png)
+![iOS Style](screenshots/ios_style.png)

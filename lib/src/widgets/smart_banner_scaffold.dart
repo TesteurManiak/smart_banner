@@ -1,12 +1,12 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 
-import 'banner_position.dart';
-import 'banner_properties.dart';
-import 'banner_style.dart';
+import '../core/banner_position.dart';
+import '../core/banner_properties.dart';
+import '../core/banner_style.dart';
+import '../theme/theme.dart';
+import '../theme/theme_data.dart';
 import 'smart_banner.dart';
-import 'theme/theme.dart';
-import 'theme/theme_data.dart';
 
 const _kAnimationDuration = Duration(milliseconds: 300);
 

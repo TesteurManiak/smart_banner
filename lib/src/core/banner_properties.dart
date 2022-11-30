@@ -1,8 +1,8 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 
+import '../utils/target_platform_extension.dart';
 import 'banner_style.dart';
-import 'utils/target_platform_extension.dart';
 
 class BannerProperties {
   const BannerProperties({

@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:url_launcher/url_launcher_string.dart';
 
-import '../smart_banner.dart';
-import 'theme/theme.dart';
-import 'utils/separated_text_span.dart';
+import '../../smart_banner.dart';
+import '../theme/theme.dart';
+import '../utils/separated_text_span.dart';
+import 'adaptive_close_button.dart';
 
 const kBannerHeight = 80.0;
 
@@ -48,7 +49,10 @@ class SmartBanner extends StatelessWidget {
             : null,
         child: Row(
           children: [
-            _CloseButton(onClose: properties.onClose),
+            AdaptiveCloseButton(
+              style: style,
+              onClose: properties.onClose,
+            ),
             const SizedBox(width: 5),
             ConstrainedBox(
               constraints: const BoxConstraints(maxHeight: 57, maxWidth: 57),
@@ -71,26 +75,6 @@ class SmartBanner extends StatelessWidget {
           ],
         ),
       ),
-    );
-  }
-}
-
-class _CloseButton extends StatelessWidget {
-  const _CloseButton({
-    required this.onClose,
-  });
-
-  final VoidCallback? onClose;
-
-  @override
-  Widget build(BuildContext context) {
-    return IconButton(
-      onPressed: () {
-        SmartBannerScaffold.hideBanner(context);
-        onClose?.call();
-      },
-      iconSize: 18,
-      icon: const Text('×'),
     );
   }
 }

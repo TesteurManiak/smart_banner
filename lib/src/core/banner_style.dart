@@ -1,6 +1,6 @@
 import 'package:flutter/foundation.dart';
 
-import 'utils/target_platform_extension.dart';
+import '../utils/target_platform_extension.dart';
 
 enum BannerStyle {
   adaptive,

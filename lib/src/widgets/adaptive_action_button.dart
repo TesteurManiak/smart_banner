@@ -21,6 +21,24 @@ class AdaptiveActionButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final theme = SmartBannerTheme.of(context);
+
+    if (style.isAndroid) {
+      return ElevatedButton(
+        onPressed: _handleOnPressed,
+        style: ElevatedButton.styleFrom(
+          backgroundColor: theme.buttonTextStyle.backgroundColor,
+          elevation: 0,
+          shape: const RoundedRectangleBorder(),
+        ),
+        child: Text(
+          label,
+          style: theme.buttonTextStyle.copyWith(
+            backgroundColor: Colors.transparent,
+          ),
+        ),
+      );
+    }
+
     return TextButton(
       onPressed: _handleOnPressed,
       child: Text(

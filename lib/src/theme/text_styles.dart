@@ -10,6 +10,12 @@ class BannerTextStyles {
     fontWeight: FontWeight.w400,
     color: BannerColorPalette.buttonIOS,
   );
+  static const buttonAndroid = TextStyle(
+    fontSize: 14.0,
+    fontWeight: FontWeight.w700,
+    color: Color(0xFFd1d1d1),
+    backgroundColor: Color(0xFF42b6c9),
+  );
   static const titleIOS = TextStyle(
     fontSize: 13.0,
     fontWeight: FontWeight.w500,

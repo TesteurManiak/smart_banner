@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:url_launcher/url_launcher_string.dart';
 
-import '../../smart_banner.dart';
+import '../core/banner_properties.dart';
+import '../core/banner_style.dart';
 import '../theme/theme.dart';
 import '../utils/separated_text_span.dart';
+import 'adaptive_action_button.dart';
 import 'adaptive_close_button.dart';
 
 const kBannerHeight = 80.0;
@@ -64,7 +65,8 @@ class SmartBanner extends StatelessWidget {
                 author: properties.author,
               ),
             ),
-            _ViewButton(
+            AdaptiveActionButton(
+              style: style,
               label: properties.buttonLabel,
               url: platformProperties.url,
               storeUrl: platformProperties.createStoreUrl(effectiveLang),
@@ -119,43 +121,5 @@ class _TitleAndDecription extends StatelessWidget {
         ),
       ],
     );
-  }
-}
-
-class _ViewButton extends StatelessWidget {
-  const _ViewButton({
-    required this.label,
-    required this.url,
-    required this.storeUrl,
-  });
-
-  final String label;
-  final String? url;
-  final String storeUrl;
-
-  @override
-  Widget build(BuildContext context) {
-    final theme = SmartBannerTheme.of(context);
-    return TextButton(
-      onPressed: _handleOnPressed,
-      child: Text(
-        label,
-        style: theme.buttonTextStyle,
-      ),
-    );
-  }
-
-  Future<void> _handleOnPressed() async {
-    final localUrl = url;
-    if (localUrl != null) {
-      final canLaunch = await canLaunchUrlString(localUrl);
-      if (canLaunch) {
-        await launchUrlString(localUrl);
-      } else {
-        await launchUrlString(storeUrl);
-      }
-    } else {
-      await launchUrlString(storeUrl);
-    }
   }
 }

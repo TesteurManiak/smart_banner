@@ -11,4 +11,7 @@ class BannerColorPalette {
   static const titleAndroid = Colors.white;
   static const descriptionIOS = Color(0xFF6a6a6a);
   static const descriptionAndroid = Color(0xFFcccccc);
+  static const closeButtonIOS = Color(0xFF888888);
+  static const closeButtonAndroid = Color(0xFFb1b1b3);
+  static const closeButtonBackgroundAndroid = Color(0xFF1c1e21);
 }

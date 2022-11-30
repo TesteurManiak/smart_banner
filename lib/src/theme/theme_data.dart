@@ -8,23 +8,19 @@ class SmartBannerThemeData {
   const SmartBannerThemeData.ios()
       : backgroundColor = BannerColorPalette.backgroundIOS,
         shadowColor = BannerColorPalette.shadowIOS,
-        _buttonColor = BannerColorPalette.buttonIOS,
-        _titleColor = BannerColorPalette.titleIOS,
-        _descriptionColor = BannerColorPalette.descriptionIOS,
-        _buttonTextStyle = BannerTextStyles.buttonIOS,
-        _titleTextStyle = BannerTextStyles.titleIOS,
-        _descriptionTextStyle = BannerTextStyles.descriptionIOS;
+        buttonTextStyle = BannerTextStyles.buttonIOS,
+        titleTextStyle = BannerTextStyles.titleIOS,
+        descriptionTextStyle = BannerTextStyles.descriptionIOS,
+        closeButtonTextStyle = BannerTextStyles.closeButtonIOS;
 
   // TODO: create real android theme
   const SmartBannerThemeData.android()
       : backgroundColor = BannerColorPalette.backgroundAndroid,
         shadowColor = Colors.black,
-        _buttonColor = BannerColorPalette.buttonIOS,
-        _titleColor = BannerColorPalette.titleAndroid,
-        _descriptionColor = BannerColorPalette.descriptionAndroid,
-        _buttonTextStyle = BannerTextStyles.buttonIOS,
-        _titleTextStyle = BannerTextStyles.titleAndroid,
-        _descriptionTextStyle = BannerTextStyles.descriptionAndroid;
+        buttonTextStyle = BannerTextStyles.buttonIOS,
+        titleTextStyle = BannerTextStyles.titleAndroid,
+        descriptionTextStyle = BannerTextStyles.descriptionAndroid,
+        closeButtonTextStyle = BannerTextStyles.closeButtonAndroid;
 
   factory SmartBannerThemeData.adaptive() {
     if (defaultTargetPlatform == TargetPlatform.iOS) {
@@ -36,18 +32,9 @@ class SmartBannerThemeData {
 
   final Color backgroundColor;
   final Color shadowColor;
-  final Color _buttonColor;
-  final Color _titleColor;
-  final Color _descriptionColor;
 
-  final TextStyle _buttonTextStyle;
-  TextStyle get buttonTextStyle =>
-      _buttonTextStyle.copyWith(color: _buttonColor);
-
-  final TextStyle _titleTextStyle;
-  TextStyle get titleTextStyle => _titleTextStyle.copyWith(color: _titleColor);
-
-  final TextStyle _descriptionTextStyle;
-  TextStyle get descriptionTextStyle =>
-      _descriptionTextStyle.copyWith(color: _descriptionColor);
+  final TextStyle buttonTextStyle;
+  final TextStyle titleTextStyle;
+  final TextStyle descriptionTextStyle;
+  final TextStyle closeButtonTextStyle;
 }

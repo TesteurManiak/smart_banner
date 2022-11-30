@@ -49,10 +49,7 @@ class SmartBanner extends StatelessWidget {
             : null,
         child: Row(
           children: [
-            AdaptiveCloseButton(
-              style: style,
-              onClose: properties.onClose,
-            ),
+            AdaptiveCloseButton(onClose: properties.onClose),
             const SizedBox(width: 5),
             ConstrainedBox(
               constraints: const BoxConstraints(maxHeight: 57, maxWidth: 57),

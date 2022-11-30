@@ -1,27 +1,35 @@
 import 'package:flutter/material.dart';
 
-import '../core/banner_style.dart';
+import '../theme/theme.dart';
 import 'smart_banner_scaffold.dart';
 
 class AdaptiveCloseButton extends StatelessWidget {
   const AdaptiveCloseButton({
     super.key,
-    required this.style,
     required this.onClose,
   });
 
-  final BannerStyle style;
   final VoidCallback? onClose;
 
   @override
   Widget build(BuildContext context) {
+    final textStyle = SmartBannerTheme.of(context).closeButtonTextStyle;
+
     return IconButton(
       onPressed: () {
         SmartBannerScaffold.hideBanner(context);
         onClose?.call();
       },
-      iconSize: 18,
-      icon: const Text('×'),
+      iconSize: textStyle.fontSize,
+      color: textStyle.color,
+      icon: Container(
+        alignment: Alignment.center,
+        decoration: BoxDecoration(
+          shape: BoxShape.circle,
+          color: textStyle.backgroundColor,
+        ),
+        child: const Icon(Icons.close),
+      ),
     );
   }
 }

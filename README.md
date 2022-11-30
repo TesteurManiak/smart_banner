@@ -19,12 +19,13 @@ class MyApp extends StatelessWidget {
                 properties: BannerProperties(
                     title: 'MyApp',
                     buttonLabel: 'VIEW',
-                    icon: Image.asset('assets/icon.png'),
                     androidProperties: BannerPropertiesAndroid(
                         packageName: 'com.my.app',
+                        icon: Image.asset('assets/android_icon.png'),
                     ),
                     iosProperties: BannerPropertiesIOS(
                         appId: '123456789',
+                        icon: Image.asset('assets/ios_icon.png'),
                     ),
                 ),
                 child: child,

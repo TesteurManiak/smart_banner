@@ -8,7 +8,6 @@ class BannerProperties {
   const BannerProperties({
     required this.title,
     required this.buttonLabel,
-    required this.icon,
     required this.androidProperties,
     required this.iosProperties,
     this.author,
@@ -22,7 +21,6 @@ class BannerProperties {
   /// The label of the install button that will be displayed on the banner.
   final String buttonLabel;
 
-  final Widget icon;
   final BannerPropertiesAndroid androidProperties;
   final BannerPropertiesIOS iosProperties;
 
@@ -54,6 +52,7 @@ class BannerProperties {
 class BannerPropertiesIOS extends SmartBannerProperties {
   const BannerPropertiesIOS({
     required super.appId,
+    required super.icon,
     super.storeText,
     super.priceText,
     super.url,
@@ -65,6 +64,7 @@ class BannerPropertiesIOS extends SmartBannerProperties {
 class BannerPropertiesAndroid extends SmartBannerProperties {
   const BannerPropertiesAndroid({
     required String packageName,
+    required super.icon,
     super.storeText,
     super.priceText,
     super.url,
@@ -81,6 +81,7 @@ class BannerPropertiesAndroid extends SmartBannerProperties {
 abstract class SmartBannerProperties {
   const SmartBannerProperties({
     required this.appId,
+    required this.icon,
     required String storeTemplateUrl,
     this.storeText,
     this.priceText,
@@ -110,6 +111,8 @@ abstract class SmartBannerProperties {
   final String? url;
 
   final String _storeTemplateUrl;
+
+  final Widget icon;
 
   String createStoreUrl(String lang) {
     return _storeTemplateUrl

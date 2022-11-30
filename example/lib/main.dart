@@ -40,24 +40,27 @@ class MyApp extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       builder: (context, child) {
         if (child != null) {
+          final icon = Image.network(
+            'https://upload.wikimedia.org/wikipedia/commons/c/cd/Facebook_logo_%28square%29.png',
+          );
+
           return SmartBannerScaffold(
             style: bannerModel.style,
             position: bannerModel.position,
             properties: BannerProperties(
               title: 'Facebook',
               buttonLabel: 'VIEW',
-              androidProperties: const BannerPropertiesAndroid(
+              androidProperties: BannerPropertiesAndroid(
                 packageName: 'com.facebook.katana',
                 storeText: 'In Google Play',
                 priceText: 'Free',
+                icon: icon,
               ),
-              iosProperties: const BannerPropertiesIOS(
+              iosProperties: BannerPropertiesIOS(
                 appId: '284882215',
                 storeText: 'On the App Store',
                 priceText: 'Free',
-              ),
-              icon: Image.network(
-                'https://upload.wikimedia.org/wikipedia/commons/c/cd/Facebook_logo_%28square%29.png',
+                icon: icon,
               ),
             ),
             child: child,

@@ -54,7 +54,7 @@ class SmartBanner extends StatelessWidget {
             const SizedBox(width: 5),
             ConstrainedBox(
               constraints: const BoxConstraints(maxHeight: 57, maxWidth: 57),
-              child: properties.icon,
+              child: platformProperties.icon,
             ),
             const SizedBox(width: 12),
             Expanded(

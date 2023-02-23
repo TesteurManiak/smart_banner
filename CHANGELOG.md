@@ -1,3 +1,7 @@
+## 0.2.0+1
+
+* Added screenshots to the pubspec.yaml
+
 ## 0.2.0
 
 * Detect when the browser is running on MacOS to use the iOS style banner

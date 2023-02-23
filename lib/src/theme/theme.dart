@@ -12,12 +12,10 @@ class SmartBannerTheme extends StatelessWidget {
   final SmartBannerThemeData data;
   final Widget child;
 
-  static final _kFallbackTheme = SmartBannerThemeData.adaptive();
-
   static SmartBannerThemeData of(BuildContext context) {
     final inheritedTheme = context
         .dependOnInheritedWidgetOfExactType<_InheritedSmartBannerTheme>();
-    return inheritedTheme?.theme.data ?? _kFallbackTheme;
+    return inheritedTheme?.theme.data ?? SmartBannerThemeData.adaptive(context);
   }
 
   @override

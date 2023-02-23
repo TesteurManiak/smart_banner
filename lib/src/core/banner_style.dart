@@ -1,4 +1,4 @@
-import 'package:flutter/foundation.dart';
+import 'package:flutter/material.dart';
 
 import '../utils/target_platform_extension.dart';
 
@@ -9,25 +9,15 @@ enum BannerStyle {
 }
 
 extension PlatformStyleExtension on BannerStyle {
-  bool get isAndroid {
+  bool isAndroid(BuildContext context) {
+    final targetPlatform = Theme.of(context).platform;
     switch (this) {
       case BannerStyle.adaptive:
-        return defaultTargetPlatform.isAndroid;
+        return targetPlatform.isAndroid;
       case BannerStyle.android:
         return true;
       case BannerStyle.ios:
         return false;
-    }
-  }
-
-  bool get isIOS {
-    switch (this) {
-      case BannerStyle.adaptive:
-        return defaultTargetPlatform.isIOS;
-      case BannerStyle.android:
-        return false;
-      case BannerStyle.ios:
-        return true;
     }
   }
 }

@@ -131,7 +131,7 @@ class SmartBannerScaffoldState extends State<SmartBannerScaffold>
   SmartBannerThemeData _getEffectiveTheme() {
     switch (widget.style) {
       case BannerStyle.adaptive:
-        return SmartBannerThemeData.adaptive();
+        return SmartBannerThemeData.adaptive(context);
       case BannerStyle.android:
         return const SmartBannerThemeData.android();
       case BannerStyle.ios:

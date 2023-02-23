@@ -37,7 +37,7 @@ class SmartBanner extends StatelessWidget {
         padding: const EdgeInsets.symmetric(horizontal: 10.0),
         height: kBannerHeight,
         width: double.maxFinite,
-        decoration: style.isAndroid
+        decoration: style.isAndroid(context)
             ? const BoxDecoration(
                 image: DecorationImage(
                   image: AssetImage(

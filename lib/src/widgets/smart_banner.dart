@@ -27,7 +27,10 @@ class SmartBanner extends StatelessWidget {
     final effectiveLang = properties.appStoreLanguage ??
         Localizations.localeOf(context).languageCode;
 
-    final platformProperties = properties.getPropertiesFromStyle(style);
+    final platformProperties = properties.getPropertiesFromStyle(
+      context,
+      style,
+    );
 
     return Material(
       color: theme.backgroundColor,

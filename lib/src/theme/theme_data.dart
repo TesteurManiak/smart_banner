@@ -1,4 +1,3 @@
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 
 import 'colors.dart';
@@ -25,7 +24,7 @@ class SmartBannerThemeData {
         descriptionTextStyle = BannerTextStyles.descriptionAndroid,
         closeButtonTextStyle = BannerTextStyles.closeButtonAndroid;
 
-  /// Create a [SmartBannerThemeData] depending on the [defaultTargetPlatform].
+  /// Create a [SmartBannerThemeData] depending on the current [TargetPlatform].
   factory SmartBannerThemeData.adaptive(BuildContext context) {
     final targetPlatform = Theme.of(context).platform;
 

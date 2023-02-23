@@ -1,7 +1,9 @@
 name: smart_banner
 description: Display a smart banner on top of the screen of your Flutter Web application.
-version: 0.1.0+1
+version: 0.2.0
 homepage: https://github.com/TesteurManiak/smart_banner
+repository: https://github.com/TesteurManiak/smart_banner
+issue_tracker: https://github.com/TesteurManiak/smart_banner/issues
 
 environment:
   sdk: ">=2.18.4 <3.0.0"

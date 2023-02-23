@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
-
-import 'colors.dart';
-import 'text_styles.dart';
+import 'package:smart_banner/src/theme/colors.dart';
+import 'package:smart_banner/src/theme/text_styles.dart';
 
 class SmartBannerThemeData {
   /// Create a [SmartBannerThemeData] with specific colors and text styles for

@@ -1,12 +1,11 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-
-import '../core/banner_position.dart';
-import '../core/banner_properties.dart';
-import '../core/banner_style.dart';
-import '../theme/theme.dart';
-import '../theme/theme_data.dart';
-import 'smart_banner.dart';
+import 'package:smart_banner/src/core/banner_position.dart';
+import 'package:smart_banner/src/core/banner_properties.dart';
+import 'package:smart_banner/src/core/banner_style.dart';
+import 'package:smart_banner/src/theme/theme.dart';
+import 'package:smart_banner/src/theme/theme_data.dart';
+import 'package:smart_banner/src/widgets/smart_banner.dart';
 
 const _kAnimationDuration = Duration(milliseconds: 300);
 

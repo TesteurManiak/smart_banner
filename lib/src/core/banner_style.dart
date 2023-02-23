@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
-
-import '../utils/target_platform_extension.dart';
+import 'package:smart_banner/src/utils/target_platform_extension.dart';
 
 enum BannerStyle {
   adaptive,

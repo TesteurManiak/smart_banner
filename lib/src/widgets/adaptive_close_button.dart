@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
-
-import '../theme/theme.dart';
-import 'smart_banner_scaffold.dart';
+import 'package:smart_banner/src/theme/theme.dart';
+import 'package:smart_banner/src/widgets/smart_banner_scaffold.dart';
 
 class AdaptiveCloseButton extends StatelessWidget {
   const AdaptiveCloseButton({

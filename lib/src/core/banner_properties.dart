@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
-
-import '../utils/target_platform_extension.dart';
-import 'banner_style.dart';
+import 'package:smart_banner/src/core/banner_style.dart';
+import 'package:smart_banner/src/utils/target_platform_extension.dart';
 
 class BannerProperties {
   const BannerProperties({

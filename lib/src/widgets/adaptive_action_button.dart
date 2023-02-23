@@ -1,8 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:smart_banner/src/core/banner_style.dart';
+import 'package:smart_banner/src/theme/theme.dart';
 import 'package:url_launcher/url_launcher_string.dart';
-
-import '../core/banner_style.dart';
-import '../theme/theme.dart';
 
 class AdaptiveActionButton extends StatelessWidget {
   const AdaptiveActionButton({

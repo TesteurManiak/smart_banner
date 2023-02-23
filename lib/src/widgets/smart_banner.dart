@@ -1,11 +1,10 @@
 import 'package:flutter/material.dart';
-
-import '../core/banner_properties.dart';
-import '../core/banner_style.dart';
-import '../theme/theme.dart';
-import '../utils/separated_text_span.dart';
-import 'adaptive_action_button.dart';
-import 'adaptive_close_button.dart';
+import 'package:smart_banner/src/core/banner_properties.dart';
+import 'package:smart_banner/src/core/banner_style.dart';
+import 'package:smart_banner/src/theme/theme.dart';
+import 'package:smart_banner/src/utils/separated_text_span.dart';
+import 'package:smart_banner/src/widgets/adaptive_action_button.dart';
+import 'package:smart_banner/src/widgets/adaptive_close_button.dart';
 
 const kBannerHeight = 80.0;
 
@@ -37,7 +36,7 @@ class SmartBanner extends StatelessWidget {
       shadowColor: theme.shadowColor,
       elevation: 1,
       child: Container(
-        padding: const EdgeInsets.symmetric(horizontal: 10.0),
+        padding: const EdgeInsets.symmetric(horizontal: 10),
         height: kBannerHeight,
         width: double.maxFinite,
         decoration: style.isAndroid(context)

@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
-
-import 'theme_data.dart';
+import 'package:smart_banner/src/theme/theme_data.dart';
 
 class SmartBannerTheme extends StatelessWidget {
   const SmartBannerTheme({

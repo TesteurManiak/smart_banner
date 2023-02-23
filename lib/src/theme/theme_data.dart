@@ -28,20 +28,15 @@ class SmartBannerThemeData {
     final targetPlatform = Theme.of(context).platform;
 
     switch (targetPlatform) {
-      case TargetPlatform.android:
-        return const SmartBannerThemeData.android();
       case TargetPlatform.iOS:
       case TargetPlatform.macOS:
         return const SmartBannerThemeData.ios();
       case TargetPlatform.fuchsia:
       case TargetPlatform.linux:
       case TargetPlatform.windows:
-        break;
+      case TargetPlatform.android:
+        return const SmartBannerThemeData.android();
     }
-
-    throw UnimplementedError(
-      'The platform $targetPlatform is not supported by this package.',
-    );
   }
 
   final Color backgroundColor;

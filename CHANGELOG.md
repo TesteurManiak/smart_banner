@@ -1,3 +1,7 @@
+## 0.2.1
+
+* Fixed exception in `SmartBannerThemeData.adaptive`
+
 ## 0.2.0+1
 
 * Added screenshots to the pubspec.yaml

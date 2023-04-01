@@ -25,13 +25,13 @@ class AdaptiveActionButton extends StatelessWidget {
       return ElevatedButton(
         onPressed: _handleOnPressed,
         style: ElevatedButton.styleFrom(
-          backgroundColor: theme.buttonTextStyle.backgroundColor,
+          backgroundColor: theme.buttonTextStyle?.backgroundColor,
           elevation: 0,
           shape: const RoundedRectangleBorder(),
         ),
         child: Text(
           label,
-          style: theme.buttonTextStyle.copyWith(
+          style: theme.buttonTextStyle?.copyWith(
             backgroundColor: Colors.transparent,
           ),
         ),

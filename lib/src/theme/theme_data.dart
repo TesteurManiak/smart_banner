@@ -6,10 +6,10 @@ class SmartBannerThemeData {
   const SmartBannerThemeData({
     this.backgroundColor,
     this.shadowColor,
-    required this.buttonTextStyle,
+    this.buttonTextStyle,
     this.titleTextStyle,
     this.descriptionTextStyle,
-    required this.closeButtonTextStyle,
+    this.closeButtonTextStyle,
     this.backgroundImage,
   });
 
@@ -59,10 +59,10 @@ class SmartBannerThemeData {
 
   final Color? backgroundColor;
   final Color? shadowColor;
-  final TextStyle buttonTextStyle;
+  final TextStyle? buttonTextStyle;
   final TextStyle? titleTextStyle;
   final TextStyle? descriptionTextStyle;
-  final TextStyle closeButtonTextStyle;
+  final TextStyle? closeButtonTextStyle;
   final DecorationImage? backgroundImage;
 
   SmartBannerThemeData copyWith({

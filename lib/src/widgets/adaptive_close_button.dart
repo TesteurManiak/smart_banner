@@ -19,13 +19,13 @@ class AdaptiveCloseButton extends StatelessWidget {
         SmartBannerScaffold.hideBanner(context);
         onClose?.call();
       },
-      iconSize: textStyle.fontSize,
-      color: textStyle.color,
+      iconSize: textStyle?.fontSize,
+      color: textStyle?.color,
       icon: Container(
         alignment: Alignment.center,
         decoration: BoxDecoration(
           shape: BoxShape.circle,
-          color: textStyle.backgroundColor,
+          color: textStyle?.backgroundColor,
         ),
         child: const Icon(Icons.close),
       ),

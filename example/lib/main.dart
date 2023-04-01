@@ -45,6 +45,7 @@ class MyApp extends StatelessWidget {
           );
 
           return SmartBannerScaffold(
+            isShown: true,
             style: bannerModel.style,
             position: bannerModel.position,
             properties: BannerProperties(

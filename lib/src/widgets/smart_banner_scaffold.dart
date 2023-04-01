@@ -7,93 +7,132 @@ import 'package:smart_banner/src/theme/theme.dart';
 import 'package:smart_banner/src/theme/theme_data.dart';
 import 'package:smart_banner/src/widgets/smart_banner.dart';
 
-const _kAnimationDuration = Duration(milliseconds: 300);
+const _kDefaultBannerPosition = BannerPosition.top;
+const _kDefaultBannerStyle = BannerStyle.adaptive;
+const _kDefaultAnimationDuration = Duration(milliseconds: 300);
+const _kDefaultAnimationCurve = Curves.easeInOut;
 
 class SmartBannerScaffold extends StatefulWidget {
   const SmartBannerScaffold({
     super.key,
     required this.child,
     required this.properties,
-    this.position = BannerPosition.top,
-    this.style = BannerStyle.adaptive,
-    this.animationDuration = _kAnimationDuration,
-    this.animationCurve = Curves.easeInOut,
+    this.position = _kDefaultBannerPosition,
+    this.style = _kDefaultBannerStyle,
+    this.animationDuration = _kDefaultAnimationDuration,
+    this.animationCurve = _kDefaultAnimationCurve,
+    this.isShown,
   });
 
   final Widget child;
 
   /// Position of the banner.
+  ///
+  /// Defaults to [BannerPosition.top].
   final BannerPosition position;
 
   /// Used to force a specific style.
+  ///
+  /// Defaults to [BannerStyle.adaptive].
   final BannerStyle style;
 
   final BannerProperties properties;
 
   /// Duration of the sliding animation.
+  ///
+  /// Defaults to 300 milliseconds.
   final Duration animationDuration;
 
   /// Curve of the sliding animation.
+  ///
+  /// Defaults to [Curves.easeInOut].
   final Curve animationCurve;
+
+  /// Whether the banner should be shown.
+  ///
+  /// Defaults to [kIsWeb] value.
+  final bool? isShown;
 
   @override
   State<SmartBannerScaffold> createState() => SmartBannerScaffoldState();
 
   static SmartBannerScaffoldState of(BuildContext context) {
-    final inheritedWidget =
-        context.dependOnInheritedWidgetOfExactType<_SmartBannerScope>();
-    return inheritedWidget!.state;
+    return maybeOf(context)!;
   }
 
   static SmartBannerScaffoldState? maybeOf(BuildContext context) {
     final inheritedWidget =
-        context.dependOnInheritedWidgetOfExactType<_SmartBannerScope>();
+        context.dependOnInheritedWidgetOfExactType<SmartBannerScope>();
     return inheritedWidget?.state;
   }
 
+  /// Shortcut to `SmartBannerScaffold.maybeOf(context).hideBanner()`.
+  ///
+  /// {@macro smart_banner_scaffold_state.hide_banner}
   static void hideBanner(BuildContext context) {
     maybeOf(context)?.hideBanner();
   }
 
+  /// Shortcut to `SmartBannerScaffold.maybeOf(context).showBanner()`.
+  ///
+  /// {@macro smart_banner_scaffold_state.show_banner}
   static void showBanner(BuildContext context) {
     maybeOf(context)?.showBanner();
   }
 }
 
 class SmartBannerScaffoldState extends State<SmartBannerScaffold>
-    with TickerProviderStateMixin {
-  late final _animationController = AnimationController(
-    vsync: this,
-    duration: widget.animationDuration,
-  );
-  late final _offsetAnimation = Tween<Offset>(
+    with SingleTickerProviderStateMixin {
+  late final _offsetTween = Tween<Offset>(
     begin: Offset.zero,
     end: widget.position == BannerPosition.top
         ? const Offset(0, -1)
         : const Offset(0, 1),
-  ).animate(
-    CurvedAnimation(
-      parent: _animationController,
-      curve: widget.animationCurve,
-    ),
   );
+
+  AnimationController? _animationController;
+  Animation<Offset>? _offsetAnimation;
+
+  bool get _isShown => widget.isShown ?? kIsWeb;
+
+  @override
+  void initState() {
+    super.initState();
+
+    if (_isShown) {
+      final animationController = AnimationController(
+        vsync: this,
+        duration: widget.animationDuration,
+      );
+
+      _animationController = animationController;
+      _offsetAnimation = _offsetTween.animate(
+        CurvedAnimation(
+          parent: animationController,
+          curve: widget.animationCurve,
+        ),
+      );
+    }
+  }
 
   @override
   void dispose() {
-    _animationController.dispose();
+    _animationController?.dispose();
     super.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
-    if (!kIsWeb) return widget.child;
+    final offsetAnimation = _offsetAnimation;
+
+    if (!_isShown || offsetAnimation == null) return widget.child;
 
     final effectiveTheme = _getEffectiveTheme();
     final children = <Widget>[
       AnimatedBuilder(
-        animation: _offsetAnimation,
+        animation: offsetAnimation,
         builder: (context, _) {
-          double offset = kBannerHeight * _offsetAnimation.value.dy;
+          double offset = kBannerHeight * offsetAnimation.value.dy;
           if (offset < 0) offset *= -1;
           final height = kBannerHeight - offset;
 
@@ -114,7 +153,7 @@ class SmartBannerScaffoldState extends State<SmartBannerScaffold>
       Expanded(child: widget.child),
     ];
 
-    return _SmartBannerScope(
+    return SmartBannerScope(
       state: this,
       child: SmartBannerTheme(
         data: effectiveTheme,
@@ -138,13 +177,25 @@ class SmartBannerScaffoldState extends State<SmartBannerScaffold>
     }
   }
 
-  void hideBanner() => _animationController.forward();
+  /// {@template smart_banner_scaffold_state.hide_banner}
+  /// Hide the banner if it was shown.
+  ///
+  /// If the banner is already hidden, this method does nothing.
+  /// {@endtemplate}
+  void hideBanner() => _animationController?.forward();
 
-  void showBanner() => _animationController.reverse();
+  /// {@template smart_banner_scaffold_state.show_banner}
+  /// Show the banner if it was hidden.
+  ///
+  /// If the banner is already shown, this method does nothing.
+  /// {@endtemplate}
+  void showBanner() => _animationController?.reverse();
 }
 
-class _SmartBannerScope extends InheritedWidget {
-  const _SmartBannerScope({
+@visibleForTesting
+class SmartBannerScope extends InheritedWidget {
+  const SmartBannerScope({
+    super.key,
     required this.state,
     required super.child,
   });
@@ -152,7 +203,7 @@ class _SmartBannerScope extends InheritedWidget {
   final SmartBannerScaffoldState state;
 
   @override
-  bool updateShouldNotify(_SmartBannerScope oldWidget) {
+  bool updateShouldNotify(SmartBannerScope oldWidget) {
     return state != oldWidget.state;
   }
 }

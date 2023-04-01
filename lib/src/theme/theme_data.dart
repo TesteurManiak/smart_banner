@@ -3,6 +3,16 @@ import 'package:smart_banner/src/theme/colors.dart';
 import 'package:smart_banner/src/theme/text_styles.dart';
 
 class SmartBannerThemeData {
+  const SmartBannerThemeData({
+    this.backgroundColor,
+    this.shadowColor,
+    required this.buttonTextStyle,
+    this.titleTextStyle,
+    this.descriptionTextStyle,
+    required this.closeButtonTextStyle,
+    this.backgroundImage,
+  });
+
   /// Create a [SmartBannerThemeData] with specific colors and text styles for
   /// iOS.
   const SmartBannerThemeData.ios()
@@ -11,7 +21,8 @@ class SmartBannerThemeData {
         buttonTextStyle = BannerTextStyles.buttonIOS,
         titleTextStyle = BannerTextStyles.titleIOS,
         descriptionTextStyle = BannerTextStyles.descriptionIOS,
-        closeButtonTextStyle = BannerTextStyles.closeButtonIOS;
+        closeButtonTextStyle = BannerTextStyles.closeButtonIOS,
+        backgroundImage = null;
 
   /// Create a [SmartBannerThemeData] with specific colors and text styles for
   /// Android.
@@ -21,7 +32,14 @@ class SmartBannerThemeData {
         buttonTextStyle = BannerTextStyles.buttonAndroid,
         titleTextStyle = BannerTextStyles.titleAndroid,
         descriptionTextStyle = BannerTextStyles.descriptionAndroid,
-        closeButtonTextStyle = BannerTextStyles.closeButtonAndroid;
+        closeButtonTextStyle = BannerTextStyles.closeButtonAndroid,
+        backgroundImage = const DecorationImage(
+          image: AssetImage(
+            'assets/background.png',
+            package: 'smart_banner',
+          ),
+          repeat: ImageRepeat.repeat,
+        );
 
   /// Create a [SmartBannerThemeData] depending on the current [TargetPlatform].
   factory SmartBannerThemeData.adaptive(BuildContext context) {
@@ -39,10 +57,31 @@ class SmartBannerThemeData {
     }
   }
 
-  final Color backgroundColor;
-  final Color shadowColor;
+  final Color? backgroundColor;
+  final Color? shadowColor;
   final TextStyle buttonTextStyle;
-  final TextStyle titleTextStyle;
-  final TextStyle descriptionTextStyle;
+  final TextStyle? titleTextStyle;
+  final TextStyle? descriptionTextStyle;
   final TextStyle closeButtonTextStyle;
+  final DecorationImage? backgroundImage;
+
+  SmartBannerThemeData copyWith({
+    Color? backgroundColor,
+    Color? shadowColor,
+    TextStyle? buttonTextStyle,
+    TextStyle? titleTextStyle,
+    TextStyle? descriptionTextStyle,
+    TextStyle? closeButtonTextStyle,
+    DecorationImage? backgroundImage,
+  }) {
+    return SmartBannerThemeData(
+      backgroundColor: backgroundColor ?? this.backgroundColor,
+      shadowColor: shadowColor ?? this.shadowColor,
+      buttonTextStyle: buttonTextStyle ?? this.buttonTextStyle,
+      titleTextStyle: titleTextStyle ?? this.titleTextStyle,
+      descriptionTextStyle: descriptionTextStyle ?? this.descriptionTextStyle,
+      closeButtonTextStyle: closeButtonTextStyle ?? this.closeButtonTextStyle,
+      backgroundImage: backgroundImage ?? this.backgroundImage,
+    );
+  }
 }

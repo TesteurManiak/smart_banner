@@ -43,17 +43,7 @@ class SmartBanner extends StatelessWidget {
         padding: const EdgeInsets.symmetric(horizontal: 10),
         height: kBannerHeight,
         width: double.maxFinite,
-        decoration: effectiveStyle.isAndroid(context)
-            ? const BoxDecoration(
-                image: DecorationImage(
-                  image: AssetImage(
-                    'assets/background.png',
-                    package: 'smart_banner',
-                  ),
-                  repeat: ImageRepeat.repeat,
-                ),
-              )
-            : null,
+        decoration: BoxDecoration(image: theme.backgroundImage),
         child: Row(
           children: [
             AdaptiveCloseButton(onClose: properties.onClose),

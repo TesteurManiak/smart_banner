@@ -17,10 +17,10 @@ class SmartBannerScaffold extends StatefulWidget {
     super.key,
     required this.child,
     required this.properties,
-    this.position = _kDefaultBannerPosition,
-    this.style = _kDefaultBannerStyle,
-    this.animationDuration = _kDefaultAnimationDuration,
-    this.animationCurve = _kDefaultAnimationCurve,
+    this.position,
+    this.style,
+    this.animationDuration,
+    this.animationCurve,
     this.isShown,
   });
 
@@ -29,24 +29,24 @@ class SmartBannerScaffold extends StatefulWidget {
   /// Position of the banner.
   ///
   /// Defaults to [BannerPosition.top].
-  final BannerPosition position;
+  final BannerPosition? position;
 
   /// Used to force a specific style.
   ///
   /// Defaults to [BannerStyle.adaptive].
-  final BannerStyle style;
+  final BannerStyle? style;
 
   final BannerProperties properties;
 
   /// Duration of the sliding animation.
   ///
   /// Defaults to 300 milliseconds.
-  final Duration animationDuration;
+  final Duration? animationDuration;
 
   /// Curve of the sliding animation.
   ///
   /// Defaults to [Curves.easeInOut].
-  final Curve animationCurve;
+  final Curve? animationCurve;
 
   /// Whether the banner should be shown.
   ///
@@ -83,17 +83,18 @@ class SmartBannerScaffold extends StatefulWidget {
 
 class SmartBannerScaffoldState extends State<SmartBannerScaffold>
     with SingleTickerProviderStateMixin {
+  late final _position = widget.position ?? _kDefaultBannerPosition;
+  late final _style = widget.style ?? _kDefaultBannerStyle;
+  late final _isShown = widget.isShown ?? kIsWeb;
   late final _offsetTween = Tween<Offset>(
     begin: Offset.zero,
-    end: widget.position == BannerPosition.top
+    end: _position == BannerPosition.top
         ? const Offset(0, -1)
         : const Offset(0, 1),
   );
 
   AnimationController? _animationController;
   Animation<Offset>? _offsetAnimation;
-
-  bool get _isShown => widget.isShown ?? kIsWeb;
 
   @override
   void initState() {
@@ -102,14 +103,14 @@ class SmartBannerScaffoldState extends State<SmartBannerScaffold>
     if (_isShown) {
       final animationController = AnimationController(
         vsync: this,
-        duration: widget.animationDuration,
+        duration: widget.animationDuration ?? _kDefaultAnimationDuration,
       );
 
       _animationController = animationController;
       _offsetAnimation = _offsetTween.animate(
         CurvedAnimation(
           parent: animationController,
-          curve: widget.animationCurve,
+          curve: widget.animationCurve ?? _kDefaultAnimationCurve,
         ),
       );
     }
@@ -158,7 +159,7 @@ class SmartBannerScaffoldState extends State<SmartBannerScaffold>
       child: SmartBannerTheme(
         data: effectiveTheme,
         child: Column(
-          children: widget.position == BannerPosition.top
+          children: _position == BannerPosition.top
               ? children
               : children.reversed.toList(),
         ),
@@ -167,7 +168,7 @@ class SmartBannerScaffoldState extends State<SmartBannerScaffold>
   }
 
   SmartBannerThemeData _getEffectiveTheme() {
-    switch (widget.style) {
+    switch (_style) {
       case BannerStyle.adaptive:
         return SmartBannerThemeData.adaptive(context);
       case BannerStyle.android:

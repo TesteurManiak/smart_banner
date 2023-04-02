@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:smart_banner/src/theme/colors.dart';
 import 'package:smart_banner/src/theme/text_styles.dart';
 
+@immutable
 class SmartBannerThemeData {
   const SmartBannerThemeData({
     this.backgroundColor,
@@ -82,6 +83,33 @@ class SmartBannerThemeData {
       descriptionTextStyle: descriptionTextStyle ?? this.descriptionTextStyle,
       closeButtonTextStyle: closeButtonTextStyle ?? this.closeButtonTextStyle,
       backgroundImage: backgroundImage ?? this.backgroundImage,
+    );
+  }
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        other is SmartBannerThemeData &&
+            runtimeType == other.runtimeType &&
+            backgroundColor == other.backgroundColor &&
+            shadowColor == other.shadowColor &&
+            buttonTextStyle == other.buttonTextStyle &&
+            titleTextStyle == other.titleTextStyle &&
+            descriptionTextStyle == other.descriptionTextStyle &&
+            closeButtonTextStyle == other.closeButtonTextStyle &&
+            backgroundImage == other.backgroundImage;
+  }
+
+  @override
+  int get hashCode {
+    return Object.hash(
+      backgroundColor,
+      shadowColor,
+      buttonTextStyle,
+      titleTextStyle,
+      descriptionTextStyle,
+      closeButtonTextStyle,
+      backgroundImage,
     );
   }
 }

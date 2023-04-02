@@ -30,10 +30,7 @@ class SmartBanner extends StatelessWidget {
         Localizations.localeOf(context).languageCode;
     final effectiveStyle = style ?? _kDefaultBannerStyle;
 
-    final platformProperties = properties.getPropertiesFromStyle(
-      context,
-      effectiveStyle,
-    );
+    final platformProperties = properties.getPlatormProperties(context);
 
     return Material(
       color: theme.backgroundColor,

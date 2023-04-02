@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:smart_banner/src/core/banner_style.dart';
 import 'package:smart_banner/src/utils/target_platform_extension.dart';
 
 class BannerProperties {
@@ -33,20 +32,9 @@ class BannerProperties {
   /// Callback when the banner is closed.
   final VoidCallback? onClose;
 
-  SmartBannerProperties getPropertiesFromStyle(
-    BuildContext context,
-    BannerStyle style,
-  ) {
+  SmartBannerProperties getPlatormProperties(BuildContext context) {
     final targetPlatform = Theme.of(context).platform;
-
-    switch (style) {
-      case BannerStyle.adaptive:
-        return targetPlatform.isAndroid ? androidProperties : iosProperties;
-      case BannerStyle.android:
-        return androidProperties;
-      case BannerStyle.ios:
-        return iosProperties;
-    }
+    return targetPlatform.isAndroid ? androidProperties : iosProperties;
   }
 }
 

@@ -38,6 +38,18 @@ class MyApp extends StatelessWidget {
 
     return MaterialApp(
       debugShowCheckedModeBanner: false,
+      theme: ThemeData(
+        platform: () {
+          switch (bannerModel.style) {
+            case BannerStyle.adaptive:
+              return null;
+            case BannerStyle.android:
+              return TargetPlatform.android;
+            case BannerStyle.ios:
+              return TargetPlatform.iOS;
+          }
+        }(),
+      ),
       builder: (context, child) {
         if (child != null) {
           final icon = Image.network(

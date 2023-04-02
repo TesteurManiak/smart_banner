@@ -2,9 +2,9 @@
 
 [![Pub Version](https://img.shields.io/pub/v/smart_banner)](https://pub.dev/packages/smart_banner)
 
-Display a smart banner on top of the screen of your Flutter Web application.
+Display a smart banner on top of the screen of your Flutter Web application. Inspired by [smart-app-banner](https://github.com/kudago/smart-app-banner/) and [react-smartbanner](https://github.com/patw0929/react-smartbanner)
 
-Inspired by [smart-app-banner](https://github.com/kudago/smart-app-banner/) and [react-smartbanner](https://github.com/patw0929/react-smartbanner)
+[Try the online example](https://testeurmaniak.github.io/smart_banner/)
 
 ## Usage
 

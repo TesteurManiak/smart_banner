@@ -1,4 +1,0 @@
-enum BannerPosition {
-  top,
-  bottom,
-}

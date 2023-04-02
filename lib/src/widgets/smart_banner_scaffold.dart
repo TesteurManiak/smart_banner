@@ -4,7 +4,6 @@ import 'package:smart_banner/src/core/banner_position.dart';
 import 'package:smart_banner/src/core/banner_properties.dart';
 import 'package:smart_banner/src/core/banner_style.dart';
 import 'package:smart_banner/src/theme/theme.dart';
-import 'package:smart_banner/src/theme/theme_data.dart';
 import 'package:smart_banner/src/widgets/smart_banner.dart';
 
 const _kDefaultBannerPosition = BannerPosition.top;
@@ -83,18 +82,17 @@ class SmartBannerScaffold extends StatefulWidget {
 
 class SmartBannerScaffoldState extends State<SmartBannerScaffold>
     with SingleTickerProviderStateMixin {
-  late final _position = widget.position ?? _kDefaultBannerPosition;
-  late final _style = widget.style ?? _kDefaultBannerStyle;
-  late final _isShown = widget.isShown ?? kIsWeb;
   late final _offsetTween = Tween<Offset>(
     begin: Offset.zero,
-    end: _position == BannerPosition.top
-        ? const Offset(0, -1)
-        : const Offset(0, 1),
+    end: _position.offset,
   );
 
   AnimationController? _animationController;
   Animation<Offset>? _offsetAnimation;
+
+  bool get _isShown => widget.isShown ?? kIsWeb;
+  BannerPosition get _position => widget.position ?? _kDefaultBannerPosition;
+  BannerStyle get _style => widget.style ?? _kDefaultBannerStyle;
 
   @override
   void initState() {
@@ -128,7 +126,6 @@ class SmartBannerScaffoldState extends State<SmartBannerScaffold>
 
     if (!_isShown || offsetAnimation == null) return widget.child;
 
-    final effectiveTheme = _getEffectiveTheme();
     final children = <Widget>[
       AnimatedBuilder(
         animation: offsetAnimation,
@@ -157,7 +154,7 @@ class SmartBannerScaffoldState extends State<SmartBannerScaffold>
     return SmartBannerScope(
       state: this,
       child: SmartBannerTheme(
-        data: effectiveTheme,
+        data: _style.themeFetcher(context),
         child: Column(
           children: _position == BannerPosition.top
               ? children
@@ -165,17 +162,6 @@ class SmartBannerScaffoldState extends State<SmartBannerScaffold>
         ),
       ),
     );
-  }
-
-  SmartBannerThemeData _getEffectiveTheme() {
-    switch (_style) {
-      case BannerStyle.adaptive:
-        return SmartBannerThemeData.adaptive(context);
-      case BannerStyle.android:
-        return const SmartBannerThemeData.android();
-      case BannerStyle.ios:
-        return const SmartBannerThemeData.ios();
-    }
   }
 
   /// {@template smart_banner_scaffold_state.hide_banner}

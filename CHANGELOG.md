@@ -1,3 +1,7 @@
+## 0.2.2
+
+* Added property `isShown` to override the display of the banner
+
 ## 0.2.1
 
 * Fixed exception in `SmartBannerThemeData.adaptive`

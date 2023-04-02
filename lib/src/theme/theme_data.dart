@@ -43,10 +43,8 @@ class SmartBannerThemeData {
         );
 
   /// Create a [SmartBannerThemeData] depending on the current [TargetPlatform].
-  factory SmartBannerThemeData.adaptive(BuildContext context) {
-    final targetPlatform = Theme.of(context).platform;
-
-    switch (targetPlatform) {
+  factory SmartBannerThemeData.adaptive(TargetPlatform platform) {
+    switch (platform) {
       case TargetPlatform.iOS:
       case TargetPlatform.macOS:
         return const SmartBannerThemeData.ios();
@@ -65,6 +63,24 @@ class SmartBannerThemeData {
   final TextStyle? descriptionTextStyle;
   final TextStyle? closeButtonTextStyle;
   final DecorationImage? backgroundImage;
+
+  /// Returns a new [SmartBannerThemeData] where each non-null property in this
+  /// object has been replaced by the corresponding property in [other].
+  SmartBannerThemeData merge(SmartBannerThemeData? other) {
+    if (other == null) {
+      return this;
+    }
+
+    return copyWith(
+      backgroundColor: other.backgroundColor,
+      shadowColor: other.shadowColor,
+      buttonTextStyle: other.buttonTextStyle,
+      titleTextStyle: other.titleTextStyle,
+      descriptionTextStyle: other.descriptionTextStyle,
+      closeButtonTextStyle: other.closeButtonTextStyle,
+      backgroundImage: other.backgroundImage,
+    );
+  }
 
   SmartBannerThemeData copyWith({
     Color? backgroundColor,

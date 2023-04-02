@@ -4,12 +4,17 @@ import 'package:smart_banner/src/core/banner_position.dart';
 import 'package:smart_banner/src/core/banner_properties.dart';
 import 'package:smart_banner/src/core/banner_style.dart';
 import 'package:smart_banner/src/theme/theme.dart';
+import 'package:smart_banner/src/theme/theme_data.dart';
 import 'package:smart_banner/src/widgets/smart_banner.dart';
 
 const _kDefaultBannerPosition = BannerPosition.top;
 const _kDefaultBannerStyle = BannerStyle.adaptive;
 const _kDefaultAnimationDuration = Duration(milliseconds: 300);
 const _kDefaultAnimationCurve = Curves.easeInOut;
+
+typedef BannerThemeBuilder = SmartBannerThemeData Function(
+  TargetPlatform platform,
+);
 
 class SmartBannerScaffold extends StatefulWidget {
   const SmartBannerScaffold({
@@ -18,6 +23,7 @@ class SmartBannerScaffold extends StatefulWidget {
     required this.properties,
     this.position,
     this.style,
+    this.themeBuilder,
     this.animationDuration,
     this.animationCurve,
     this.isShown,
@@ -34,6 +40,8 @@ class SmartBannerScaffold extends StatefulWidget {
   ///
   /// Defaults to [BannerStyle.adaptive].
   final BannerStyle? style;
+
+  final BannerThemeBuilder? themeBuilder;
 
   final BannerProperties properties;
 
@@ -92,7 +100,6 @@ class SmartBannerScaffoldState extends State<SmartBannerScaffold>
 
   bool get _isShown => widget.isShown ?? kIsWeb;
   BannerPosition get _position => widget.position ?? _kDefaultBannerPosition;
-  BannerStyle get _style => widget.style ?? _kDefaultBannerStyle;
 
   @override
   void initState() {
@@ -126,6 +133,13 @@ class SmartBannerScaffoldState extends State<SmartBannerScaffold>
 
     if (!_isShown || offsetAnimation == null) return widget.child;
 
+    final style = widget.style ?? _kDefaultBannerStyle;
+    final platform = Theme.of(context).platform;
+    final themeBuilder = widget.themeBuilder;
+    final effectiveTheme = themeBuilder != null
+        ? themeBuilder(platform).merge(style.themeFetcher(platform))
+        : style.themeFetcher(platform);
+
     final children = <Widget>[
       AnimatedBuilder(
         animation: offsetAnimation,
@@ -141,7 +155,7 @@ class SmartBannerScaffoldState extends State<SmartBannerScaffold>
                 height: kBannerHeight,
                 child: SmartBanner(
                   properties: widget.properties,
-                  style: widget.style,
+                  style: style,
                 ),
               ),
             ),
@@ -154,7 +168,7 @@ class SmartBannerScaffoldState extends State<SmartBannerScaffold>
     return SmartBannerScope(
       state: this,
       child: SmartBannerTheme(
-        data: _style.themeFetcher(context),
+        data: effectiveTheme,
         child: Column(
           children: _position == BannerPosition.top
               ? children

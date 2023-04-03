@@ -14,7 +14,9 @@ class SmartBannerTheme extends StatelessWidget {
   static SmartBannerThemeData of(BuildContext context) {
     final inheritedTheme = context
         .dependOnInheritedWidgetOfExactType<_InheritedSmartBannerTheme>();
-    return inheritedTheme?.theme.data ?? SmartBannerThemeData.adaptive(context);
+    final platform = Theme.of(context).platform;
+    return inheritedTheme?.theme.data ??
+        SmartBannerThemeData.adaptive(platform);
   }
 
   @override

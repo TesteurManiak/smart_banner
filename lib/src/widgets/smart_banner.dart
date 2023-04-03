@@ -7,29 +7,30 @@ import 'package:smart_banner/src/widgets/adaptive_action_button.dart';
 import 'package:smart_banner/src/widgets/adaptive_close_button.dart';
 
 const kBannerHeight = 80.0;
+const _kDefaultBannerStyle = BannerStyle.adaptive;
 
 class SmartBanner extends StatelessWidget {
   const SmartBanner({
     super.key,
     required this.properties,
-    this.style = BannerStyle.adaptive,
+    this.style,
   });
 
   final BannerProperties properties;
 
   /// Used to enforce a specific style no matter the platform you are on.
-  final BannerStyle style;
+  ///
+  /// Defaults to [BannerStyle.adaptive].
+  final BannerStyle? style;
 
   @override
   Widget build(BuildContext context) {
     final theme = SmartBannerTheme.of(context);
     final effectiveLang = properties.appStoreLanguage ??
         Localizations.localeOf(context).languageCode;
+    final effectiveStyle = style ?? _kDefaultBannerStyle;
 
-    final platformProperties = properties.getPropertiesFromStyle(
-      context,
-      style,
-    );
+    final platformProperties = properties.getPlatormProperties(context);
 
     return Material(
       color: theme.backgroundColor,
@@ -39,17 +40,7 @@ class SmartBanner extends StatelessWidget {
         padding: const EdgeInsets.symmetric(horizontal: 10),
         height: kBannerHeight,
         width: double.maxFinite,
-        decoration: style.isAndroid(context)
-            ? const BoxDecoration(
-                image: DecorationImage(
-                  image: AssetImage(
-                    'assets/background.png',
-                    package: 'smart_banner',
-                  ),
-                  repeat: ImageRepeat.repeat,
-                ),
-              )
-            : null,
+        decoration: BoxDecoration(image: theme.backgroundImage),
         child: Row(
           children: [
             AdaptiveCloseButton(onClose: properties.onClose),
@@ -68,7 +59,7 @@ class SmartBanner extends StatelessWidget {
               ),
             ),
             AdaptiveActionButton(
-              style: style,
+              style: effectiveStyle,
               label: properties.buttonLabel,
               url: platformProperties.url,
               storeUrl: platformProperties.createStoreUrl(effectiveLang),

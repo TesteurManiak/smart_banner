@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:smart_banner/src/core/banner_style.dart';
 import 'package:smart_banner/src/utils/target_platform_extension.dart';
 
 class BannerProperties {
@@ -33,24 +32,13 @@ class BannerProperties {
   /// Callback when the banner is closed.
   final VoidCallback? onClose;
 
-  SmartBannerProperties getPropertiesFromStyle(
-    BuildContext context,
-    BannerStyle style,
-  ) {
+  BannerPlatformProperties getPlatormProperties(BuildContext context) {
     final targetPlatform = Theme.of(context).platform;
-
-    switch (style) {
-      case BannerStyle.adaptive:
-        return targetPlatform.isAndroid ? androidProperties : iosProperties;
-      case BannerStyle.android:
-        return androidProperties;
-      case BannerStyle.ios:
-        return iosProperties;
-    }
+    return targetPlatform.isAndroid ? androidProperties : iosProperties;
   }
 }
 
-class BannerPropertiesIOS extends SmartBannerProperties {
+class BannerPropertiesIOS extends BannerPlatformProperties {
   const BannerPropertiesIOS({
     required super.appId,
     required super.icon,
@@ -62,7 +50,7 @@ class BannerPropertiesIOS extends SmartBannerProperties {
         );
 }
 
-class BannerPropertiesAndroid extends SmartBannerProperties {
+class BannerPropertiesAndroid extends BannerPlatformProperties {
   const BannerPropertiesAndroid({
     required String packageName,
     required super.icon,
@@ -79,8 +67,8 @@ class BannerPropertiesAndroid extends SmartBannerProperties {
 }
 
 /// Class that represents the properties supported by the banner.
-abstract class SmartBannerProperties {
-  const SmartBannerProperties({
+abstract class BannerPlatformProperties {
+  const BannerPlatformProperties({
     required this.appId,
     required this.icon,
     required String storeTemplateUrl,

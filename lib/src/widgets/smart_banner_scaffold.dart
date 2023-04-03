@@ -47,7 +47,7 @@ class SmartBannerScaffold extends StatefulWidget {
   /// Defaults to [BannerStyle.adaptive].
   final BannerStyle? style;
 
-  /// Used to build a custom theme for the banner.
+  /// Used to override the default theme provided by [style] with a custom one.
   ///
   /// The theme provided by [style] will be merged inside the one
   /// returned by [themeBuilder].

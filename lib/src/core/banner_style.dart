@@ -3,7 +3,7 @@ import 'package:smart_banner/src/theme/theme_data.dart';
 import 'package:smart_banner/src/utils/target_platform_extension.dart';
 
 typedef BannerThemeFetcher = SmartBannerThemeData Function(
-  TargetPlatform platform,
+  BuildContext context,
 );
 
 enum BannerStyle {
@@ -16,15 +16,16 @@ enum BannerStyle {
   final BannerThemeFetcher themeFetcher;
 }
 
-SmartBannerThemeData _adaptiveThemeFetcher(TargetPlatform platform) {
+SmartBannerThemeData _adaptiveThemeFetcher(BuildContext context) {
+  final platform = Theme.of(context).platform;
   return SmartBannerThemeData.adaptive(platform);
 }
 
-SmartBannerThemeData _androidThemeFetcher(TargetPlatform _) {
+SmartBannerThemeData _androidThemeFetcher(BuildContext _) {
   return const SmartBannerThemeData.android();
 }
 
-SmartBannerThemeData _iosThemeFetcher(TargetPlatform _) {
+SmartBannerThemeData _iosThemeFetcher(BuildContext _) {
   return const SmartBannerThemeData.ios();
 }
 

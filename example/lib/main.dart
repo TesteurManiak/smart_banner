@@ -2,23 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:smart_banner/smart_banner.dart';
 
+import 'banner_model.dart';
 import 'separated_column.dart';
-
-class BannerModel extends ChangeNotifier {
-  BannerPosition _position = BannerPosition.top;
-  BannerPosition get position => _position;
-  set position(BannerPosition value) {
-    _position = value;
-    notifyListeners();
-  }
-
-  BannerStyle _style = BannerStyle.ios;
-  BannerStyle get style => _style;
-  set style(BannerStyle value) {
-    _style = value;
-    notifyListeners();
-  }
-}
 
 void main() {
   runApp(
@@ -38,19 +23,8 @@ class MyApp extends StatelessWidget {
 
     return MaterialApp(
       debugShowCheckedModeBanner: false,
-      theme: ThemeData(
-        platform: () {
-          switch (bannerModel.style) {
-            case BannerStyle.adaptive:
-              return null;
-            case BannerStyle.android:
-              return TargetPlatform.android;
-            case BannerStyle.ios:
-              return TargetPlatform.iOS;
-          }
-        }(),
-      ),
-      builder: (context, child) {
+      theme: ThemeData(platform: bannerModel.style.toTargetPlatform()),
+      builder: (_, child) {
         if (child != null) {
           final icon = Image.network(
             'https://upload.wikimedia.org/wikipedia/commons/c/cd/Facebook_logo_%28square%29.png',
@@ -60,6 +34,8 @@ class MyApp extends StatelessWidget {
             isShown: true,
             style: bannerModel.style,
             position: bannerModel.position,
+            themeBuilder: bannerModel.themeBuilder,
+            bannerBuilder: bannerModel.bannerBuilder,
             properties: BannerProperties(
               title: 'Facebook',
               buttonLabel: 'VIEW',
@@ -142,9 +118,36 @@ class _MyHomePageState extends State<MyHomePage> {
                 }
               },
             ),
+            SwitchListTile(
+              title: const Text('Use custom theme'),
+              value: bannerModel.useThemeBuilder,
+              onChanged: (useThemeBuilder) {
+                bannerModel.useThemeBuilder = useThemeBuilder;
+              },
+            ),
+            SwitchListTile(
+              title: const Text('Use custom banner'),
+              value: bannerModel.useCustomBanner,
+              onChanged: (useCustomBanner) {
+                bannerModel.useCustomBanner = useCustomBanner;
+              },
+            ),
           ],
         ),
       ),
     );
+  }
+}
+
+extension on BannerStyle {
+  TargetPlatform? toTargetPlatform() {
+    switch (this) {
+      case BannerStyle.adaptive:
+        return null;
+      case BannerStyle.android:
+        return TargetPlatform.android;
+      case BannerStyle.ios:
+        return TargetPlatform.iOS;
+    }
   }
 }

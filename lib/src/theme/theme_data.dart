@@ -72,13 +72,13 @@ class SmartBannerThemeData {
     }
 
     return copyWith(
-      backgroundColor: other.backgroundColor,
-      shadowColor: other.shadowColor,
-      buttonTextStyle: other.buttonTextStyle,
-      titleTextStyle: other.titleTextStyle,
-      descriptionTextStyle: other.descriptionTextStyle,
-      closeButtonTextStyle: other.closeButtonTextStyle,
-      backgroundImage: other.backgroundImage,
+      backgroundColor: backgroundColor ?? other.backgroundColor,
+      shadowColor: shadowColor ?? other.shadowColor,
+      buttonTextStyle: buttonTextStyle ?? other.buttonTextStyle,
+      titleTextStyle: titleTextStyle ?? other.titleTextStyle,
+      descriptionTextStyle: descriptionTextStyle ?? other.descriptionTextStyle,
+      closeButtonTextStyle: closeButtonTextStyle ?? other.closeButtonTextStyle,
+      backgroundImage: backgroundImage ?? other.backgroundImage,
     );
   }
 

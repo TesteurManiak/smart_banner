@@ -32,13 +32,13 @@ class BannerProperties {
   /// Callback when the banner is closed.
   final VoidCallback? onClose;
 
-  SmartBannerProperties getPlatormProperties(BuildContext context) {
+  BannerPlatformProperties getPlatormProperties(BuildContext context) {
     final targetPlatform = Theme.of(context).platform;
     return targetPlatform.isAndroid ? androidProperties : iosProperties;
   }
 }
 
-class BannerPropertiesIOS extends SmartBannerProperties {
+class BannerPropertiesIOS extends BannerPlatformProperties {
   const BannerPropertiesIOS({
     required super.appId,
     required super.icon,
@@ -50,7 +50,7 @@ class BannerPropertiesIOS extends SmartBannerProperties {
         );
 }
 
-class BannerPropertiesAndroid extends SmartBannerProperties {
+class BannerPropertiesAndroid extends BannerPlatformProperties {
   const BannerPropertiesAndroid({
     required String packageName,
     required super.icon,
@@ -67,8 +67,8 @@ class BannerPropertiesAndroid extends SmartBannerProperties {
 }
 
 /// Class that represents the properties supported by the banner.
-abstract class SmartBannerProperties {
-  const SmartBannerProperties({
+abstract class BannerPlatformProperties {
+  const BannerPlatformProperties({
     required this.appId,
     required this.icon,
     required String storeTemplateUrl,

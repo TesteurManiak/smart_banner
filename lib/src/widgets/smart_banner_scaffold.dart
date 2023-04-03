@@ -12,8 +12,13 @@ const _kDefaultBannerStyle = BannerStyle.adaptive;
 const _kDefaultAnimationDuration = Duration(milliseconds: 300);
 const _kDefaultAnimationCurve = Curves.easeInOut;
 
-typedef BannerThemeBuilder = SmartBannerThemeData Function(
-  TargetPlatform platform,
+typedef BannerThemeBuilder = SmartBannerThemeData? Function(
+  BuildContext context,
+);
+
+typedef BannerBuilder = Widget Function(
+  BuildContext context,
+  BannerProperties properties,
 );
 
 class SmartBannerScaffold extends StatefulWidget {
@@ -24,6 +29,7 @@ class SmartBannerScaffold extends StatefulWidget {
     this.position,
     this.style,
     this.themeBuilder,
+    this.bannerBuilder,
     this.animationDuration,
     this.animationCurve,
     this.isShown,
@@ -41,7 +47,16 @@ class SmartBannerScaffold extends StatefulWidget {
   /// Defaults to [BannerStyle.adaptive].
   final BannerStyle? style;
 
+  /// Used to build a custom theme for the banner.
+  ///
+  /// The theme provided by [style] will be merged inside the one
+  /// returned by [themeBuilder].
   final BannerThemeBuilder? themeBuilder;
+
+  /// Used to build a custom banner widget.
+  ///
+  /// It's height will be constrained to [kBannerHeight].
+  final BannerBuilder? bannerBuilder;
 
   final BannerProperties properties;
 
@@ -134,45 +149,23 @@ class SmartBannerScaffoldState extends State<SmartBannerScaffold>
     if (!_isShown || offsetAnimation == null) return widget.child;
 
     final style = widget.style ?? _kDefaultBannerStyle;
-    final platform = Theme.of(context).platform;
     final themeBuilder = widget.themeBuilder;
-    final effectiveTheme = themeBuilder != null
-        ? themeBuilder(platform).merge(style.themeFetcher(platform))
-        : style.themeFetcher(platform);
-
-    final children = <Widget>[
-      AnimatedBuilder(
-        animation: offsetAnimation,
-        builder: (context, _) {
-          double offset = kBannerHeight * offsetAnimation.value.dy;
-          if (offset < 0) offset *= -1;
-          final height = kBannerHeight - offset;
-
-          return SizedBox(
-            height: height,
-            child: SingleChildScrollView(
-              child: SizedBox(
-                height: kBannerHeight,
-                child: SmartBanner(
-                  properties: widget.properties,
-                  style: style,
-                ),
-              ),
-            ),
-          );
-        },
-      ),
-      Expanded(child: widget.child),
-    ];
+    final buildTheme = themeBuilder?.call(context);
+    final effectiveTheme = buildTheme != null
+        ? buildTheme.merge(style.themeFetcher(context))
+        : style.themeFetcher(context);
 
     return SmartBannerScope(
       state: this,
       child: SmartBannerTheme(
         data: effectiveTheme,
-        child: Column(
-          children: _position == BannerPosition.top
-              ? children
-              : children.reversed.toList(),
+        child: _ScaffoldContent(
+          position: _position,
+          animation: offsetAnimation,
+          properties: widget.properties,
+          style: style,
+          bannerBuilder: widget.bannerBuilder,
+          child: widget.child,
         ),
       ),
     );
@@ -206,5 +199,61 @@ class SmartBannerScope extends InheritedWidget {
   @override
   bool updateShouldNotify(SmartBannerScope oldWidget) {
     return state != oldWidget.state;
+  }
+}
+
+class _ScaffoldContent extends StatelessWidget {
+  const _ScaffoldContent({
+    required this.position,
+    required this.animation,
+    required this.properties,
+    required this.style,
+    required this.bannerBuilder,
+    required this.child,
+  });
+
+  final BannerPosition position;
+  final Animation<Offset> animation;
+  final BannerProperties properties;
+  final BannerStyle? style;
+  final BannerBuilder? bannerBuilder;
+  final Widget child;
+
+  @override
+  Widget build(BuildContext context) {
+    final localBuilder = bannerBuilder;
+
+    final children = <Widget>[
+      AnimatedBuilder(
+        animation: animation,
+        builder: (context, _) {
+          double offset = kBannerHeight * animation.value.dy;
+          if (offset < 0) offset *= -1;
+          final height = kBannerHeight - offset;
+
+          return SizedBox(
+            height: height,
+            child: SingleChildScrollView(
+              child: SizedBox(
+                height: kBannerHeight,
+                child: localBuilder != null
+                    ? Material(child: localBuilder(context, properties))
+                    : SmartBanner(
+                        properties: properties,
+                        style: style,
+                      ),
+              ),
+            ),
+          );
+        },
+      ),
+      Expanded(child: child),
+    ];
+
+    return Column(
+      children: [
+        ...position == BannerPosition.top ? children : children.reversed
+      ],
+    );
   }
 }
